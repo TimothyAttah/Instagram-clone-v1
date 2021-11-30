@@ -1,9 +1,15 @@
 import React from 'react'
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { Header } from './components/Header';
 
 export const App = () => {
   return (
-    <div>
-      <h1>Hello Word</h1>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path='/'>
+          <Header />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   )
 }
