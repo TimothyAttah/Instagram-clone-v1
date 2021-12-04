@@ -41,6 +41,7 @@ export const GlobalStyle = createGlobalStyle`
 
   a {
     text-decoration: none;
+    color: var(--text-black);
   }
 
   img{
@@ -52,6 +53,10 @@ export const GlobalStyle = createGlobalStyle`
     list-style: none;
     padding: 0;
     margin: 0;
+  }
+
+  li{
+    list-style: none;
   }
 
   button{
