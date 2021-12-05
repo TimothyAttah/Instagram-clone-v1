@@ -6,8 +6,9 @@ export const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/' element={<Header />} />
+        <Route path='/' element={ <Header /> } />
     </Routes>
+        <h1 style={{minHeight: '100vh'}}>Hello world</h1>
     </BrowserRouter>
   )
 }

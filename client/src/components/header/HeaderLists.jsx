@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-import { Close, Camera, Home, People } from '@material-ui/icons';
+import { Camera, Home, People } from '@material-ui/icons';
 
 
 export const HeaderListsContainer = styled.div`
@@ -45,25 +45,25 @@ export const HeaderListsContainer = styled.div`
 `;
 
 export const HeaderListsContainerPrimary = styled.div`
-	width: 22%;
+	width: 25%;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
 	height: 10vh;
+	position: sticky;
+	top: 0;
 	div {
 		height: 10vh;
-		width: 8rem;
-
+		width: 9.5rem;
 		a {
 			height: 100%;
-			font-size: 2rem;
+			width: 100%;
+			font-size: 1.5rem;
 			color: var(--text-black);
 			display: block;
-			padding: 0 15px;
 			cursor: pointer;
 			display: flex;
-			/* transition: background-color 0.3s; */
-			transition: all 1s ease;
+			transition: all 0.5s ease;
 			justify-content: center;
 			align-items: center;
 			:hover {
