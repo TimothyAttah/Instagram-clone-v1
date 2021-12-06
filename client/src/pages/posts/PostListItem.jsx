@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 import { user } from '../../components/user';
-import { likePost, unlikePost, deletePost } from '../../redux/actions/posts';
+import { likePost, unlikePost, deletePost, deleteCommentPost } from '../../redux/actions/posts';
 
 export const PostItems = styled.div`
 	max-width: 35rem;
@@ -150,6 +150,10 @@ export const PostListItem = ( { post } ) => {
   const handleDeletePost = ( id ) => {
     dispatch( deletePost( id ) );
   }
+
+  const handleDeleteCommentPost = ( id, commentId ) => {
+    dispatch( deleteCommentPost(id, commentId) );
+  }
   return (
 		<>
 			<PostItems>
@@ -216,7 +220,7 @@ export const PostListItem = ( { post } ) => {
 								<span>{comment.text}</span>
 							</div>
 							{comment.postedBy._id === user.user_id && (
-								<DeleteForeverRounded />
+								<DeleteForeverRounded onClick={()=>handleDeleteCommentPost(post._id, comment._id)} />
 							)}
 						</PostCommentContainer>
 					))}
