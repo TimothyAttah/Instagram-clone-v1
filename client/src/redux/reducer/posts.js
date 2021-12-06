@@ -79,7 +79,8 @@ const initialState = {
 		{
 			_id: v4(),
 			photo: '',
-			likes: ['68284ebb-f25a-463c-aa31-737a948d5cac'],
+			likes: [],
+			// likes: ['68284ebb-f25a-463c-aa31-737a948d5cac'],
 			comments: [],
 			body: 'This is post three...',
 			createdAt: 'Dec 20 2020',
@@ -92,7 +93,7 @@ const initialState = {
 };
 
 export const posts = ( state = initialState, action ) => {
-  switch ( action.type ) {
+	switch ( action.type ) {
     case postTypes.CREATE_POST:
       return {
         ...state,
@@ -116,7 +117,28 @@ export const posts = ( state = initialState, action ) => {
       return {
         ...state,
         posts: state.posts.map(post => post._id === action.payload._id ? action.payload.post : post)
-      }
+			}
+		case postTypes.LIKE_POST:
+			return {
+				...state,
+				posts: state.posts.map( post =>
+					post._id === action.payload._id ? {...post, likes: [...post.likes, action.payload.userId]} : post
+				)
+			}
+		
+			// return {
+			// 	...state,
+			// 	posts: state.posts.map(post =>
+			// 		post._id === action.payload._id ? action.payload : post
+			// 	),
+			// };
+		case postTypes.UNLIKE_POST:
+			return {
+				...state,
+				posts: state.posts.map( post =>
+					post._id === action.payload._id ? {...post, likes:  post.likes.filter(like => like !== action.payload.userId)} : post
+				)
+			}
     default:
       return state
   }

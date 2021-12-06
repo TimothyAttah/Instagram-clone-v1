@@ -30,3 +30,15 @@ export const editPost = (post, _id) => async dispatch =>{
     payload: {_id, post}
   })
 }
+export const likePost = (_id, userId) => async dispatch =>{
+  dispatch( {
+    type: postTypes.LIKE_POST,
+    payload: {_id, userId}
+  })
+}
+export const unlikePost = (_id, userId) => async dispatch =>{
+  dispatch( {
+    type: postTypes.UNLIKE_POST,
+    payload: {_id, userId}
+  })
+}

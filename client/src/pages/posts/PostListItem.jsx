@@ -2,9 +2,11 @@ import { Avatar } from '@material-ui/core'
 import { Delete,  Favorite, ThumbDown, ThumbUp,  DeleteForeverRounded } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 import { user } from '../../components/user';
+import { likePost, unlikePost } from '../../redux/actions/posts';
 
 export const PostItems = styled.div`
 	max-width: 35rem;
@@ -125,12 +127,25 @@ export const Form = styled.form`
 `;
 
 export const PostListItem = ( { post } ) => {
+  const dispatch = useDispatch();
   const [ like, setLike ] = useState( post?.likes.length )
   const [ isLiked, setIsLiked ] = useState( false );
 
   useEffect( () => {
     setIsLiked(post.likes?.includes(user.user_id))
-  }, [setIsLiked, post.likes])
+  }, [ setIsLiked, post.likes ] )
+  
+  const handleLike = ( id, userId ) => {
+    dispatch( likePost( id, userId ) )
+    setLike( isLiked > 0 ? like - 1 : like + 1 )
+    setIsLiked(!isLiked)
+  }
+
+  const handleUnlike = ( id, userId ) => {
+    dispatch( unlikePost( id, userId ) )
+    setLike(isLiked > 0 ? like - 1 : like + 1);
+		setIsLiked(!isLiked);
+  }
   return (
 		<>
 			<PostItems>
@@ -151,7 +166,7 @@ export const PostListItem = ( { post } ) => {
 					<img src={post?.photo} alt='' />
 					<PostItemCounter>
 						<Favorite />
-						<>{isLiked ? <ThumbDown /> : <ThumbUp />}</>
+						<>{isLiked ? <ThumbDown onClick={()=>handleUnlike(post._id, user.user_id )} /> : <ThumbUp onClick={()=> handleLike(post._id, user.user_id)} />}</>
 					</PostItemCounter>
 					<h6>
 						{like} likes &nbsp;
