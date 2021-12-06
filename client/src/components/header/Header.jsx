@@ -10,10 +10,6 @@ export const HeaderContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	/* height: 10vh; */
-	/* box-shadow: var(--outer-shadow);
-	position: sticky;
-	top: 0; */
 	box-shadow: var(--outer-shadow);
 	position: sticky;
 	top: 0;
