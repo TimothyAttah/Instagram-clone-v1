@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 import { user } from '../../components/user';
-import { likePost, unlikePost } from '../../redux/actions/posts';
+import { likePost, unlikePost, deletePost } from '../../redux/actions/posts';
 
 export const PostItems = styled.div`
 	max-width: 35rem;
@@ -146,6 +146,10 @@ export const PostListItem = ( { post } ) => {
     setLike(isLiked > 0 ? like - 1 : like + 1);
 		setIsLiked(!isLiked);
   }
+
+  const handleDeletePost = ( id ) => {
+    dispatch( deletePost( id ) );
+  }
   return (
 		<>
 			<PostItems>
@@ -160,7 +164,7 @@ export const PostListItem = ( { post } ) => {
 						<Avatar />
 						<span>{post?.postedBy.username}</span>
 					</Link>
-					<>{post.postedBy._id === user.user_id && <Delete />}</>
+					<>{post.postedBy._id === user.user_id && <Delete onClick={()=>handleDeletePost(post._id)} />}</>
 				</PostItemTop>
 				<PostItemCenter>
 					<img src={post?.photo} alt='' />
