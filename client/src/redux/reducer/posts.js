@@ -2,87 +2,87 @@ import { postTypes } from '../types';
 import { v4 } from 'uuid';
 
 const initialState = {
-  posts: [
-    {
-      _id: v4(),
-      photo: '',
-      like: ['1', '2'],
-      comments: [
-        {
-          _id: v4(),
-          text: 'Comments one...',
-          postedBy: {
-            _id: v4(),
-            username: 'Jane Doe'
-          }
-        },
-        {
-          _id: v4(),
-          text: 'Comments Two...',
-          postedBy: {
-            _id: v4(),
-            username: 'Trisha Nick'
-          }
-        }
-      ],
-      body: 'This is post one...',
-      createdAt: 'Feb 10 2020',
-      postedBy: {
-        _id: v4(),
-        username: 'Jane Doe'
-      }
-    },
-    {
-      _id: v4(),
-      photo: '',
-      like: ['1', '2', '3'],
-      comments: [
-        {
-          _id: v4(),
-          text: 'This is a test...',
-          postedBy: {
-            _id: v4(),
-            username: 'Trisha Nick'
-          }
-        },
-        {
-          _id: v4(),
-          text: 'This is another test...',
-          postedBy: {
-            _id: v4(),
-            username: 'Trisha Nick'
-          }
-        },
-        {
-          _id: v4(),
-          text: 'Comments Three...',
-          postedBy: {
-            _id: v4(),
-            username: 'John Doe'
-          }
-        }
-      ],
-      body: 'This is post two body note...',
-      createdAt: 'June 15 2020',
-      postedBy: {
-        _id: v4(),
-        username: 'Trisha Nick'
-      }
-    },
-    {
-      _id: v4(),
-      photo: '',
-      like: [],
-      comments: [],
-      body: 'This is post three...',
-      createdAt: 'Dec 20 2020',
-      postedBy: {
-        _id: v4(),
-        username: 'John Doe'
-      }
-    }
-  ]
-}
+	posts: [
+		{
+			_id: v4(),
+			photo: '',
+			like: ['1', '2'],
+			comments: [
+				{
+					_id: 'b166931d-c41c-401d-a017-67b965f42eb7',
+					text: 'Comments one...',
+					postedBy: {
+						_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
+						username: 'Jane Doe',
+					},
+				},
+				{
+					_id: v4(),
+					text: 'Comments Two...',
+					postedBy: {
+						_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
+						username: 'Trisha Nick',
+					},
+				},
+			],
+			body: 'This is post one...',
+			createdAt: 'Feb 10 2020',
+			postedBy: {
+				_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
+				username: 'Jane Doe',
+			},
+		},
+		{
+			_id: v4(),
+			photo: '',
+			like: ['1', '2', '3'],
+			comments: [
+				{
+					_id: v4(),
+					text: 'This is a test...',
+					postedBy: {
+						_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
+						username: 'Trisha Nick',
+					},
+				},
+				{
+					_id: v4(),
+					text: 'This is another test...',
+					postedBy: {
+						_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
+						username: 'Trisha Nick',
+					},
+				},
+				{
+					_id: v4(),
+					text: 'Comments Three...',
+					postedBy: {
+						_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
+						username: 'John Doe',
+					},
+				},
+			],
+			body: 'This is post two body note...',
+			createdAt: 'June 15 2020',
+			postedBy: {
+				_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
+				username: 'Trisha Nick',
+			},
+		},
+		{
+			_id: v4(),
+			photo: '',
+			like: [],
+			comments: [],
+			body: 'This is post three...',
+			createdAt: 'Dec 20 2020',
+			postedBy: {
+				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
+				username: 'John Doe',
+			},
+		},
+	],
+};
 
 export const posts = ( state = initialState, action ) => {
   switch ( action.type ) {
@@ -99,7 +99,6 @@ export const posts = ( state = initialState, action ) => {
     case postTypes.LIST_POSTS:
       return {
         ...state,
-        posts: action.payload
       }
     case postTypes.DELETE_POST:
       return {
