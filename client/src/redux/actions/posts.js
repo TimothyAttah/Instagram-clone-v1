@@ -48,6 +48,13 @@ export const unlikePost = (_id, userId) => async dispatch =>{
   } )
   toast.success('You unlike this post');
 }
+export const createCommentPost = (_id, text) => async dispatch =>{
+  dispatch( {
+    type: postTypes.CRATE_COMMENT_POST,
+    payload: {_id, text}
+  } )
+  toast.success('You post a comment');
+}
 export const deleteCommentPost = (_id, commentId) => async dispatch =>{
   dispatch( {
     type: postTypes.DELETE_COMMENT_POST,

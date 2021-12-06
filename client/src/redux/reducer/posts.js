@@ -139,6 +139,15 @@ export const posts = ( state = initialState, action ) => {
 					post._id === action.payload._id ? {...post, likes:  post.likes.filter(like => like !== action.payload.userId)} : post
 				)
 			}
+		case postTypes.CRATE_COMMENT_POST:
+			return {
+				...state,
+				posts: state.posts.map(post =>
+					post._id === action.payload._id
+						? { ...post, comments: [...post.comments, action.payload.text] }
+						: post
+				),
+			};
 		case postTypes.DELETE_COMMENT_POST:
 			return {
 				...state,

@@ -6,7 +6,12 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 import styled from 'styled-components';
 import { user } from '../../components/user';
-import { likePost, unlikePost, deletePost, deleteCommentPost } from '../../redux/actions/posts';
+import {
+  likePost,
+  unlikePost, deletePost, deleteCommentPost,
+  createCommentPost
+} from '../../redux/actions/posts';
+import { v4 } from 'uuid';
 
 export const PostItems = styled.div`
 	max-width: 35rem;
@@ -128,6 +133,7 @@ export const Form = styled.form`
 
 export const PostListItem = ( { post } ) => {
   const dispatch = useDispatch();
+  const [ text, setText ] = useState( '' );
   const [ like, setLike ] = useState( post?.likes.length )
   const [ isLiked, setIsLiked ] = useState( false );
 
@@ -154,13 +160,28 @@ export const PostListItem = ( { post } ) => {
   const handleDeleteCommentPost = ( id, commentId ) => {
     dispatch( deleteCommentPost(id, commentId) );
   }
+
+  const handleCreateComment = ( e ) => {
+    e.preventDefault();
+    const newComment = {
+			_id: v4(),
+			text,
+			postedBy: {
+				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
+				username: 'John Doe',
+			},
+		};
+    dispatch(createCommentPost(post?._id, newComment))
+    console.log( 'This is comment>>>>', newComment );
+    setText( '' );
+  }
   return (
 		<>
 			<PostItems>
 				<PostItemTop>
 					<Link
 						to={
-							post.postedBy._id !== user.user_id
+							post.postedBy?._id !== user.user_id
 								? '/profile' + post.postedBy._id
 								: '/profile'
 						}
@@ -205,19 +226,19 @@ export const PostListItem = ( { post } ) => {
 					)}
 				</PostCommentOptions>
 				<>
-					{post.comments.map(comment => (
-						<PostCommentContainer key={comment._id}>
+					{post.comments?.map(comment => (
+						<PostCommentContainer key={comment?._id}>
 							<div>
 								<Link
 									to={
-										comment.postedBy._id !== user.user_id
-											? '/profile/' + comment.postedBy._id
+										comment?.postedBy?._id !== user.user_id
+											? '/profile/' + comment?.postedBy?._id
 											: '/profile'
 									}
 								>
-									{comment.postedBy.username}:
+									{comment?.postedBy?.username}:
 								</Link>
-								<span>{comment.text}</span>
+								<span>{comment?.text}</span>
 							</div>
 							{comment.postedBy._id === user.user_id && (
 								<DeleteForeverRounded onClick={()=>handleDeleteCommentPost(post._id, comment._id)} />
@@ -226,13 +247,14 @@ export const PostListItem = ( { post } ) => {
 					))}
 				</>
 				<PostCommentFormContainer className='commentsFormContainer'>
-					<Form
-						onSubmit={e => {
-							e.preventDefault();
-							e.target[0].value = '';
-						}}
-					>
-						<input type='text' placeholder='add a comment' />
+					<Form onSubmit={handleCreateComment}>
+            <input
+              type='text'
+              placeholder='add a comment'
+              value={ text }
+              name='text'
+              onChange={(e)=>setText(e.target.value)}
+            />
 					</Form>
 				</PostCommentFormContainer>
 				<p>Posted on {moment(post.createdAt).format('MMMM Do YYYY')}</p>
