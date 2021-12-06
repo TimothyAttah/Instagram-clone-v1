@@ -1,85 +1,219 @@
 import { Avatar } from '@material-ui/core'
-import { Delete, DeleteOutlined, Favorite, ThumbDown, ThumbUp } from '@material-ui/icons'
-import React from 'react';
+import { Delete,  Favorite, ThumbDown, ThumbUp,  DeleteForeverRounded } from '@material-ui/icons'
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom'
+import styled from 'styled-components';
+import { user } from '../../components/user';
 
-export const PostListItem = ({post}) => {
+export const PostItems = styled.div`
+	max-width: 35rem;
+	width: 100%;
+	box-shadow: var(--outer-shadow);
+	padding: 1rem;
+	margin: 2rem 0;
+	margin-left: 2rem;
+  p{
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: 600;
+    padding-bottom: 1rem;
+  }
+`;
+
+export const PostItemTop = styled.div`
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+  margin-bottom: 1rem;
+	a {
+		display: flex;
+		align-items: center;
+		.MuiAvatar-root {
+			height: 7rem;
+			width: 7rem;
+		}
+		span {
+			margin-left: 1rem;
+			font-size: 2rem;
+		}
+	}
+	.MuiSvgIcon-root {
+		font-size: 2rem;
+    cursor: pointer;
+	}
+`;
+
+export const PostItemCenter = styled.div`
+	img {
+		width: 20rem;
+		vertical-align: middle;
+		margin-bottom: 3rem;
+	}
+	h6 {
+		font-size: 1.5rem;
+    font-weight: 500;
+	}
+`;
+
+export const PostItemCounter = styled.div`
+	display: flex;
+	align-items: center;
+  margin-bottom: 0.8rem;
+	.MuiSvgIcon-root {
+		display: flex;
+		align-items: center;
+		font-size: 2rem;
+		cursor: pointer;
+		color: #1895e9;
+		:first-child {
+			color: red;
+			margin-right: 0.8rem;
+		}
+	}
+`;
+
+export const PostItemBottom = styled.div`
+  margin: 1rem 0;
+  h6{
+    font-size: 1.5rem;
+    font-weight: normal;
+    a {
+      font-weight: bold;
+      margin-right: 1rem;
+    }
+  }
+`;
+
+export const PostCommentOptions = styled.div`
+  h6{
+    font-size: 1.2rem;
+  }
+`;
+export const PostCommentContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+	padding: 0.5rem 0;
+	font-size: 1.2rem;
+	div {
+		display: flex;
+    width: 100%;
+		a {
+			font-weight: bold;
+			margin-right: 0.7rem;
+		}
+		span {
+			display: inline-block;
+			max-width: 22rem;
+			width: 100%;
+		}
+	}
+`;
+
+export const PostCommentFormContainer = styled.div`
+ 
+`;
+
+export const Form = styled.form`
+  margin: 2rem 0;
+  input{
+    border: none;
+    border-bottom: 1px solid gray;
+    width: 100%;
+    padding: 1rem;
+  }
+`;
+
+export const PostListItem = ( { post } ) => {
+  const [ like, setLike ] = useState( post?.likes.length )
+  const [ isLiked, setIsLiked ] = useState( false );
+
+  useEffect( () => {
+    setIsLiked(post.likes?.includes(user.user_id))
+  }, [setIsLiked, post.likes])
   return (
 		<>
-			<div className='postItems'>
-				<div className='postItemTop'>
-					<Link to='/profile'>
+			<PostItems>
+				<PostItemTop>
+					<Link
+						to={
+							post.postedBy._id !== user.user_id
+								? '/profile' + post.postedBy._id
+								: '/profile'
+						}
+					>
 						<Avatar />
-						{post?.postedBy.username}
+						<span>{post?.postedBy.username}</span>
 					</Link>
-					<div>
-						<Delete />
-					</div>
-        </div>
-        <div className="postItemCenter">
-          <img src={ post?.photo } alt="" />
-          <div className="postItemCounter">
-            <Favorite />
-            <>
-              <ThumbUp />
-              <ThumbDown />
-            </>
-          </div>
-          <h6>
-            { post?.like.length } likes &nbsp;
-            {post.comments.length} comments
-          </h6>
-        </div>
-        <div className="postItemBottom">
-          <h6>
-            <Link to='/profile'>
-              {post?.postedBy.username}
-            </Link>
-            {post.body}
-          </h6>
-        </div>
-        { post.comments.length === 0 ? (
-          <h6>
-            No comments yet...
-          </h6>
-        ) : post.comments.length === 1 ? (
-            <h6>
-              View 1 comment
-          </h6>
-        ): (
-              <h6>
-                View all {post.comments.length} comments
-              </h6>
-            )
-        }
-        <div className="postCommentsContainer">
-          { post.comments.map( comment => (
-            <div key={comment._id}>
-              <span>
-                <Link to='/profile'>
-                  { comment.postedBy.username }
-                </Link>
-              </span>
-              <div className="commentCenter">
-                {comment.text}
-              </div>
-              <DeleteOutlined />
-            </div>
-          ))}
-        </div>
-        <div className="commentsFormContainer">
-          <form onSubmit={ e => {
-            e.preventDefault()
-            e.target[0].value = ''
-          }}>
-            <input type="text" placeholder='add a comment' />
-          </form>
-        </div>
-        <p>
-          Posted on {moment(post.createdAt).format('MMMM Do YYYY')}
-        </p>
-			</div>
+					<>{post.postedBy._id === user.user_id && <Delete />}</>
+				</PostItemTop>
+				<PostItemCenter>
+					<img src={post?.photo} alt='' />
+					<PostItemCounter>
+						<Favorite />
+						<>{isLiked ? <ThumbDown /> : <ThumbUp />}</>
+					</PostItemCounter>
+					<h6>
+						{like} likes &nbsp;
+						{post.comments.length} comments
+					</h6>
+				</PostItemCenter>
+				<PostItemBottom>
+					<h6>
+						<Link
+							to={
+								post.postedBy._id !== user.user_id
+									? '/profile' + post.postedBy._id
+									: '/profile'
+							}
+						>
+							{post?.postedBy.username}
+						</Link>
+						{post.body}
+					</h6>
+				</PostItemBottom>
+				<PostCommentOptions>
+					{post.comments.length === 0 ? (
+						<h6>No comments yet...</h6>
+					) : post.comments.length === 1 ? (
+						<h6>View 1 comment</h6>
+					) : (
+						<h6>View all {post.comments.length} comments</h6>
+					)}
+				</PostCommentOptions>
+				<>
+					{post.comments.map(comment => (
+						<PostCommentContainer key={comment._id}>
+							<div>
+								<Link
+									to={
+										comment.postedBy._id !== user.user_id
+											? '/profile/' + comment.postedBy._id
+											: '/profile'
+									}
+								>
+									{comment.postedBy.username}:
+								</Link>
+								<span>{comment.text}</span>
+							</div>
+							{comment.postedBy._id === user.user_id && (
+								<DeleteForeverRounded />
+							)}
+						</PostCommentContainer>
+					))}
+				</>
+				<PostCommentFormContainer className='commentsFormContainer'>
+					<Form
+						onSubmit={e => {
+							e.preventDefault();
+							e.target[0].value = '';
+						}}
+					>
+						<input type='text' placeholder='add a comment' />
+					</Form>
+				</PostCommentFormContainer>
+				<p>Posted on {moment(post.createdAt).format('MMMM Do YYYY')}</p>
+			</PostItems>
 		</>
 	);
 }

@@ -6,11 +6,18 @@ const initialState = {
 		{
 			_id: v4(),
 			photo: '',
-			like: ['1', '2'],
+			likes: ['68284ebb-f25a-463c-aa31-737a948d5cac', '2'],
 			comments: [
 				{
 					_id: 'b166931d-c41c-401d-a017-67b965f42eb7',
-					text: 'Comments one...',
+					text: `
+								This HTML file is a template.
+								If you open it directly in the browser, you will see an empty page.
+								You can add webfonts, meta tags, or analytics to this file.
+								The build step will place the bundled scripts into the <body> tag.
+								To begin the development, run  or yarn start.
+								To create a production bundle, use npm run build or yarn build.
+    					`,
 					postedBy: {
 						_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
 						username: 'Jane Doe',
@@ -35,7 +42,7 @@ const initialState = {
 		{
 			_id: v4(),
 			photo: '',
-			like: ['1', '2', '3'],
+			likes: ['1', '2', '3'],
 			comments: [
 				{
 					_id: v4(),
@@ -49,8 +56,8 @@ const initialState = {
 					_id: v4(),
 					text: 'This is another test...',
 					postedBy: {
-						_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
-						username: 'Trisha Nick',
+						_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
+						username: 'Jane Doe',
 					},
 				},
 				{
@@ -72,7 +79,7 @@ const initialState = {
 		{
 			_id: v4(),
 			photo: '',
-			like: [],
+			likes: ['68284ebb-f25a-463c-aa31-737a948d5cac'],
 			comments: [],
 			body: 'This is post three...',
 			createdAt: 'Dec 20 2020',
