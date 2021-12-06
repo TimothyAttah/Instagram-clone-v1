@@ -1,4 +1,5 @@
 import { postTypes } from '../types';
+import { toast } from 'react-toastify';
 
 export const listPosts = (posts) => async dispatch =>{
   dispatch( {
@@ -10,7 +11,8 @@ export const createPost = (post) => async dispatch =>{
   dispatch( {
     type: postTypes.CREATE_POST,
     payload: post
-  })
+  } )
+  toast.success( 'New post created' );
 }
 export const listPost = (post, _id) => async dispatch =>{
   dispatch( {
@@ -22,23 +24,27 @@ export const deletePost = ( _id) => async dispatch =>{
   dispatch( {
     type: postTypes.DELETE_POST,
     payload: _id
-  })
+  } )
+  toast.success('Post deleted successfully!!!')
 }
 export const editPost = (post, _id) => async dispatch =>{
   dispatch( {
     type: postTypes.EDIT_POST,
     payload: {_id, post}
-  })
+  } )
+  toast.success('Post edited successfully!!!');
 }
 export const likePost = (_id, userId) => async dispatch =>{
   dispatch( {
     type: postTypes.LIKE_POST,
     payload: {_id, userId}
-  })
+  } )
+  toast.success('You like this post');
 }
 export const unlikePost = (_id, userId) => async dispatch =>{
   dispatch( {
     type: postTypes.UNLIKE_POST,
     payload: {_id, userId}
-  })
+  } )
+  toast.success('You unlike this post');
 }
