@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
+import { posts } from './posts';
 
 export const reducers = combineReducers( {
-  hello: () => 2 - 2
+  posts
 } );
