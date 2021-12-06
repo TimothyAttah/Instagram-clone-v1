@@ -13,13 +13,10 @@ export const HeaderListsContainer = styled.div`
 	margin-left: auto;
 	height: 100%;
 	font-size: 2.5rem;
-  ${props => props.primary && css`
-		width: 10% !important;
-	` }
-
 	span {
 		font-style: italic;
 		font-size: 2.5rem;
+		cursor: pointer;
 	}
 	.MuiSvgIcon-root {
 		font-size: 2rem;
@@ -37,9 +34,28 @@ export const HeaderListsContainer = styled.div`
 		transition: background-color 0.2s ease-out;
 		vertical-align: middle;
 		-webkit-tap-highlight-color: transparent;
-		font-size: 1rem;
+		font-size: 1.2rem;
 		:hover {
 			background-color: #a54040;
+		}
+	}
+	@media screen and (max-width: 500px) {
+		margin-left: 0;
+		width: 80%;
+	}
+	@media screen and (max-width: 350px) {
+		span {
+			font-size: 1.8rem;
+		}
+		.MuiSvgIcon-root {
+			font-size: 1.5rem;
+		}
+		button {
+			padding: 0 1rem;
+			font-size: 1rem;
+			height: 2.7rem;
+			line-height: 2.7rem;
+			letter-spacing: 0.2rem;
 		}
 	}
 `;
@@ -49,7 +65,6 @@ export const HeaderListsContainerPrimary = styled.div`
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	height: 10vh;
 	position: sticky;
 	top: 0;
 	div {
@@ -69,6 +84,13 @@ export const HeaderListsContainerPrimary = styled.div`
 			:hover {
 				background-color: rgba(0, 0, 0, 0.1);
 			}
+		}
+	}
+	@media screen and (max-width: 500px) {
+		width: 50%;
+		div {
+			height: 8vh;
+			width: 12rem;
 		}
 	}
 `;

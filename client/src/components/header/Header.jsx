@@ -14,32 +14,35 @@ export const HeaderContainer = styled.div`
 	position: sticky;
 	top: 0;
 	z-index: 10;
-	color: #fff;
 	width: 100%;
-	height: 64px;
+	height: 9.6vh;
 
 	> a {
 		font-size: 3.5rem;
 		font-family: 'Grand Hotel', cursive;
 	}
-`;
-export const HeaderLinkLists = styled.div`
-	width: 50%;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-	margin-left: auto;
-	height: 100%;
-	font-size: 2.5rem;
-
-	span {
-		font-style: italic;
-		font-size: 2.5rem;
+	@media screen and (max-width: 500px){
+		height: 17vh;
+		flex-direction: column;
 	}
-  .MuiSvgIcon-root{
-    font-size: 2rem;
-  }
 `;
+// export const HeaderLinkLists = styled.div`
+// 	width: 50%;
+// 	display: flex;
+// 	justify-content: space-around;
+// 	align-items: center;
+// 	margin-left: auto;
+// 	height: 100%;
+// 	font-size: 2.5rem;
+
+// 	span {
+// 		font-style: italic;
+// 		font-size: 2.5rem;
+// 	}
+//   .MuiSvgIcon-root{
+//     font-size: 2rem;
+//   }
+// `;
 
 export const Header = () => {
 
