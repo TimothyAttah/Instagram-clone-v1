@@ -1,11 +1,17 @@
 import { Avatar } from '@material-ui/core'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { listPosts } from '../../redux/actions/posts';
+
+export const ProfileContainer = styled.div`
+	max-width: 60rem;
+	width: 100%;
+  margin: 0 auto;
+`;
 
 export const ProfileTop = styled.div`
-  max-width: 60rem;
   width: 100%;
-  /* border: 2px solid green; */
   margin: 3rem auto 1rem;
   display: flex;
   justify-content: space-around;
@@ -67,11 +73,12 @@ export const ProfileTopButtonWrapper = styled.div`
     background-color: #127cff;
     color: var(--text-white);
     border-radius: 0.5rem;
+    box-shadow: var(--outer-shadow);
   }
 `;
 
 export const ProfileTopInfoWrapper = styled.div`
-	width: 30rem;
+	width: 32rem;
 	margin: 0 auto;
 	display: flex;
 	justify-content: space-between;
@@ -92,8 +99,40 @@ export const ProfileTopInfoWrapper = styled.div`
 	}
 `;
 
+export const ProfileBottomContainer = styled.div`
+  margin-top: 2rem;
+  width: 100%;
+`;
+export const ProfileBottomButtonWrapper = styled.div`
+	width: 20rem;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin-bottom: 3rem;
+	margin-left: 3rem;
+	button {
+		padding: 1rem;
+		width: 9rem;
+		background-color: transparent;
+		font-size: 1.5rem;
+	}
+`;
+// export const ProfileBottomContainer = styled.div`
+
+// `;
+// export const ProfileBottomContainer = styled.div`
+
+// `;
+
+
+
 export const Profile = () => {
+  const dispatch = useDispatch();
   const [ showGallery, setShowGallery ] = useState( false );
+  const { posts } = useSelector( state => state.posts );
+  useEffect( () => {
+    dispatch( listPosts() )
+  }, [dispatch] );
 
   const handleShowGallery = () => {
     setShowGallery( true );
@@ -102,8 +141,10 @@ export const Profile = () => {
   const handleShowPosts = () => {
     setShowGallery( false );
   }
+
+  console.log('My Posts>>>>>>', posts);
   return (
-    <>
+    <ProfileContainer>
       <ProfileTop>
         <ProfileTopLeft>
           <Avatar />
@@ -144,19 +185,25 @@ export const Profile = () => {
         </ProfileTopRight>
       </ProfileTop>
       <hr />
-      <div className="profileBottomContainer">
-        <div className="profileBottomButtonWrapper">
+      <ProfileBottomContainer>
+        <ProfileBottomButtonWrapper>
           <button onClick={handleShowPosts}>Posts</button>
           <button onClick={handleShowGallery}>Gallery</button>
-        </div>
+        </ProfileBottomButtonWrapper>
         { showGallery ? (
           <h1>Gallery coming soon...</h1>
         ) : (
             <div className='profileBottomPostsContainer'>
-              <h1>This is posts</h1>
+              { posts.length ? (
+                posts.map( post => (
+                  <div></div>
+                ))
+              ): (
+                <h2>No posts published yet...</h2>
+              )}
             </div>
         )}
-      </div>
-    </>
+      </ProfileBottomContainer>
+    </ProfileContainer>
   )
 }
