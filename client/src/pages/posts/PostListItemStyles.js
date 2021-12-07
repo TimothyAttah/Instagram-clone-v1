@@ -109,6 +109,9 @@ export const PostCommentContainer = styled.div`
 			width: 100%;
 		}
 	}
+	.MuiSvgIcon-root{
+		cursor: pointer;
+	}
 `;
 
 export const PostCommentFormContainer = styled.div``;
