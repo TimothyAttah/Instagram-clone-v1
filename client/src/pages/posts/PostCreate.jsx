@@ -1,19 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
-import { createPost, listPosts } from '../../redux/actions/posts';
+import { createPost } from '../../redux/actions/posts';
 
 export const PostCreate = () => {
   const dispatch = useDispatch();
   const [ body, setBody ] = useState( '' );
-
-  useEffect( () => {
-    dispatch( listPosts() )
-  }, [ dispatch ] )
-  
-   const { posts } = useSelector(state => state.posts);
-		console.log('This is posts>>>>>>', posts);
-
 
   const handleSubmit = ( e ) => {
     e.preventDefault();
