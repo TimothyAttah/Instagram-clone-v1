@@ -4,6 +4,7 @@ import { Header } from './components/header/Header';
 import { Posts } from './pages/posts/Posts';
 import { toast } from 'react-toastify';
 import { PostCreate } from './pages/posts/PostCreate';
+import { Profile } from './pages/profiles/Profile';
 
 export const App = () => {
   toast.configure();
@@ -13,6 +14,7 @@ export const App = () => {
       <Routes>
         <Route path='/' element={ <Posts /> } />
         <Route path='/create' element={ <PostCreate /> } />
+        <Route path='/profile' element={ <Profile /> } />
     </Routes>
     </BrowserRouter>
   )
