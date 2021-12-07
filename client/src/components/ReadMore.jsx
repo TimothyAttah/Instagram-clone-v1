@@ -6,6 +6,7 @@ const ReadMoreContainer = styled.div`
     cursor: pointer;
     font-weight: bold;
     font-style: italic;
+    color: var(--gray);
   }
 `;
 

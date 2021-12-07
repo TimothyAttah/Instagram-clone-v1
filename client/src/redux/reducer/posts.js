@@ -6,6 +6,8 @@ const initialState = {
 		{
 			_id: v4(),
 			photo: '',
+			followers: [],
+			following: [],
 			likes: ['68284ebb-f25a-463c-aa31-737a948d5cac', '2'],
 			comments: [
 				{
@@ -49,6 +51,8 @@ const initialState = {
 		{
 			_id: v4(),
 			photo: '',
+			followers: [],
+			following: [],
 			likes: ['1', '2', '3'],
 			comments: [
 				{
@@ -86,11 +90,29 @@ const initialState = {
 		{
 			_id: v4(),
 			photo: '',
+			followers: [],
+			following: [],
 			likes: [],
 			// likes: ['68284ebb-f25a-463c-aa31-737a948d5cac'],
 			comments: [],
 			body: 'This is post three...',
 			createdAt: 'Dec 20 2020',
+			postedBy: {
+				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
+				username: 'John Doe',
+			},
+		},
+		{
+			_id: v4(),
+			photo: '',
+			followers: [],
+			following: [],
+			likes: [],
+			// likes: ['68284ebb-f25a-463c-aa31-737a948d5cac'],
+			comments: [],
+			body: `If you open it directly in the browser, you will see an empty page.
+								You can add webfonts, meta tags, or analytics to this file.`,
+			createdAt: 'Dec 20 2021',
 			postedBy: {
 				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
 				username: 'John Doe',
