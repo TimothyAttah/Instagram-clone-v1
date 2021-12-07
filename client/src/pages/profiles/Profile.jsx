@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { listPosts } from '../../redux/actions/posts';
+import { ProfilePostList } from './ProfilePostList';
 
 export const ProfileContainer = styled.div`
 	max-width: 60rem;
@@ -142,6 +143,8 @@ export const Profile = () => {
     setShowGallery( false );
   }
 
+
+  
   console.log('My Posts>>>>>>', posts);
   return (
     <ProfileContainer>
@@ -196,7 +199,9 @@ export const Profile = () => {
             <div className='profileBottomPostsContainer'>
               { posts.length ? (
                 posts.map( post => (
-                  <div></div>
+                  <div key={post._id}>
+                    <ProfilePostList post={post} />
+                  </div>
                 ))
               ): (
                 <h2>No posts published yet...</h2>
