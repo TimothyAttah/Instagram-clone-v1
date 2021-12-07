@@ -10,6 +10,11 @@ export const ProfileTop = styled.div`
 	margin: 3rem auto 1rem;
 	display: flex;
 	justify-content: space-around;
+  @media screen and (max-width: 500px){
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const ProfileTopLeft = styled.div`
@@ -37,14 +42,24 @@ export const ProfileTopLeft = styled.div`
 			border-bottom: 1px solid var(--gray);
 		}
 	}
-  ${props => props.primary && css`
-    display: block;
-  `}
+	${props =>
+		props.primary &&
+		css`
+			display: block;
+		`}
+	@media screen and (max-width:500px) {
+		margin-bottom: 1.5rem;
+		.MuiAvatar-root {
+			width: 11rem;
+			height: 11rem;
+      text-align: center;
+      margin: 0 auto;
+		}
+	}
 `;
 
 export const ProfileTopRight = styled.div`
 	width: 35rem;
-	/* border: 2px solid darkblue; */
 	text-align: center;
 `;
 export const ProfileTopNameWrapper = styled.div`
@@ -85,11 +100,13 @@ export const ProfileTopButtonWrapper = styled.div`
 `;
 
 export const ProfileTopInfoWrapper = styled.div`
-	width: 32rem;
+	max-width: 32rem;
+  width: 100%;
 	margin: 0 auto;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+  flex-wrap: wrap;
 
 	div {
 		width: 10rem;
@@ -104,6 +121,14 @@ export const ProfileTopInfoWrapper = styled.div`
 			color: var(--text-black);
 		}
 	}
+  @media screen and (max-width: 360px){
+    max-width: 25rem;
+    div{
+      display: flex;
+      flex-direction: column;
+      width: 7rem;
+    }
+  }
 `;
 
 export const ProfileBottomContainer = styled.div`
