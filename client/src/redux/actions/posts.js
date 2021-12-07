@@ -1,5 +1,6 @@
 import { postTypes } from '../types';
 import { toast } from 'react-toastify';
+// import { history } from '../../history';
 
 export const listPosts = (posts) => async dispatch =>{
   dispatch( {
@@ -7,12 +8,13 @@ export const listPosts = (posts) => async dispatch =>{
     payload: posts
   })
 }
-export const createPost = (post) => async dispatch =>{
+export const createPost = (posts) => async dispatch =>{
   dispatch( {
     type: postTypes.CREATE_POST,
-    payload: post
+    payload: posts
   } )
   toast.success( 'New post created' );
+  window.location.href='/'
 }
 export const listPost = (post, _id) => async dispatch =>{
   dispatch( {
