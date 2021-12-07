@@ -12,6 +12,7 @@ import {
   createCommentPost
 } from '../../redux/actions/posts';
 import { v4 } from 'uuid';
+import { ReadMore } from '../../components/ReadMore';
 
 export const PostItems = styled.div`
 	max-width: 35rem;
@@ -109,7 +110,7 @@ export const PostCommentContainer = styled.div`
 			font-weight: bold;
 			margin-right: 0.7rem;
 		}
-		span {
+		div {
 			display: inline-block;
 			max-width: 22rem;
 			width: 100%;
@@ -189,13 +190,25 @@ export const PostListItem = ( { post } ) => {
 						<Avatar />
 						<span>{post?.postedBy.username}</span>
 					</Link>
-					<>{post.postedBy._id === user.user_id && <Delete onClick={()=>handleDeletePost(post._id)} />}</>
+					<>
+						{post.postedBy._id === user.user_id && (
+							<Delete onClick={() => handleDeletePost(post._id)} />
+						)}
+					</>
 				</PostItemTop>
 				<PostItemCenter>
 					<img src={post?.photo} alt='' />
 					<PostItemCounter>
 						<Favorite />
-						<>{isLiked ? <ThumbDown onClick={()=>handleUnlike(post._id, user.user_id )} /> : <ThumbUp onClick={()=> handleLike(post._id, user.user_id)} />}</>
+						<>
+							{isLiked ? (
+								<ThumbDown
+									onClick={() => handleUnlike(post._id, user.user_id)}
+								/>
+							) : (
+								<ThumbUp onClick={() => handleLike(post._id, user.user_id)} />
+							)}
+						</>
 					</PostItemCounter>
 					<h6>
 						{like} likes &nbsp;
@@ -213,7 +226,7 @@ export const PostListItem = ( { post } ) => {
 						>
 							{post?.postedBy.username}
 						</Link>
-						{post.body}
+						<ReadMore>{post.body}</ReadMore>
 					</h6>
 				</PostItemBottom>
 				<PostCommentOptions>
@@ -238,23 +251,25 @@ export const PostListItem = ( { post } ) => {
 								>
 									{comment?.postedBy?.username}:
 								</Link>
-								<span>{comment?.text}</span>
+								<ReadMore>{comment?.text}</ReadMore>
 							</div>
 							{comment.postedBy._id === user.user_id && (
-								<DeleteForeverRounded onClick={()=>handleDeleteCommentPost(post._id, comment._id)} />
+								<DeleteForeverRounded
+									onClick={() => handleDeleteCommentPost(post._id, comment._id)}
+								/>
 							)}
 						</PostCommentContainer>
 					))}
 				</>
 				<PostCommentFormContainer className='commentsFormContainer'>
 					<Form onSubmit={handleCreateComment}>
-            <input
-              type='text'
-              placeholder='add a comment'
-              value={ text }
-              name='text'
-              onChange={(e)=>setText(e.target.value)}
-            />
+						<input
+							type='text'
+							placeholder='add a comment'
+							value={text}
+							name='text'
+							onChange={e => setText(e.target.value)}
+						/>
 					</Form>
 				</PostCommentFormContainer>
 				<p>Posted on {moment(post.createdAt).format('MMMM Do YYYY')}</p>

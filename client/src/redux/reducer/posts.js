@@ -32,7 +32,14 @@ const initialState = {
 					},
 				},
 			],
-			body: 'This is post one...',
+			body: `
+								This HTML file is a template.
+								If you open it directly in the browser, you will see an empty page.
+								You can add webfonts, meta tags, or analytics to this file.
+								The build step will place the bundled scripts into the <body> tag.
+								To begin the development, run  or yarn start.
+								To create a production bundle, use npm run build or yarn build.
+    					`,
 			createdAt: 'Feb 10 2020',
 			postedBy: {
 				_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
