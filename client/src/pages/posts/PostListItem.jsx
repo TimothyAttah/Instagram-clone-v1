@@ -76,7 +76,7 @@ export const PostListItem = ( { post } ) => {
 					<Link
 						to={
 							post.postedBy?._id !== user.user_id
-								? '/profile' + post.postedBy._id
+								? '/profile/' + post.postedBy._id
 								: '/profile'
 						}
 					>
@@ -113,7 +113,7 @@ export const PostListItem = ( { post } ) => {
 						<Link
 							to={
 								post.postedBy._id !== user.user_id
-									? '/profile' + post.postedBy._id
+									? '/profile/' + post.postedBy._id
 									: '/profile'
 							}
 						>

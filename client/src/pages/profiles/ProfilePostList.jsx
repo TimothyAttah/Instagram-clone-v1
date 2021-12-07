@@ -84,7 +84,7 @@ export const ProfilePostList = ( { post } ) => {
 					<Link
 						to={
 							post.postedBy?._id !== user.user_id
-								? '/profile' + post.postedBy._id
+								? '/profile/' + post.postedBy._id
 								: '/profile'
 						}
 					>
@@ -121,7 +121,7 @@ export const ProfilePostList = ( { post } ) => {
 						<Link
 							to={
 								post.postedBy._id !== user.user_id
-									? '/profile' + post.postedBy._id
+									? '/profile/' + post.postedBy._id
 									: '/profile'
 							}
 						>
