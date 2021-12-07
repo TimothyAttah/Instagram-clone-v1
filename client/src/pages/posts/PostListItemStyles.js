@@ -12,6 +12,14 @@ export const PostItems = styled.div`
 		font-weight: 600;
 		padding-bottom: 1rem;
 	}
+	@media screen and (max-width: 400px){
+		max-width: 100%;
+		margin-left: 0;
+		padding: 2rem;
+		p{
+			font-size: 1.4rem;
+		}
+	}
 `;
 
 export const PostItemTop = styled.div`

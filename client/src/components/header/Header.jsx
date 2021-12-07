@@ -16,14 +16,13 @@ export const HeaderContainer = styled.div`
 	z-index: 10;
 	width: 100%;
 	height: 64px;
-	/* height: 9.6vh; */
 
 	> a {
 		font-size: 3.5rem;
 		font-family: 'Grand Hotel', cursive;
 	}
 	@media screen and (max-width: 500px){
-		height: 17vh;
+		height: 120px;
 		flex-direction: column;
 	}
 `;
