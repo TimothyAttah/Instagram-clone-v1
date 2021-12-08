@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { PostCreate } from './pages/posts/PostCreate';
 import { Profile } from './pages/profiles/Profile';
 import { UserProfile } from './pages/profiles/UserProfile';
+import { SignUp } from './pages/user/SignUp';
 
 export const App = () => {
   toast.configure();
@@ -17,6 +18,7 @@ export const App = () => {
         <Route path='/create' element={ <PostCreate /> } />
         <Route path='/profile' element={ <Profile /> } />
         <Route path='/profile/:userId' element={ <UserProfile /> } />
+        <Route path='/signup' element={ <SignUp /> } />
     </Routes>
     </BrowserRouter>
   )
