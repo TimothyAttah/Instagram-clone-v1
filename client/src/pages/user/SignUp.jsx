@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -120,6 +120,17 @@ export const FileWrapper = styled.div`
 `;
 
 export const SignUp = () => {
+  const [ showPassword, setShowPassword ] = useState( false );
+  const [ userData, setUserData ] = useState( {
+    username: '',
+    name: '',
+    email: '',
+    password: ''
+  } )
+  
+  const handleShowPassword = () => {
+    setShowPassword( !showPassword );
+  }
   return (
 		<Container>
 			<h1>Instagram</h1>
@@ -128,8 +139,11 @@ export const SignUp = () => {
 				<input type='text' placeholder='Your Name' />
 				<input type='email' placeholder='Your Email' />
 				<PasswordContainer>
-					<input type='password' placeholder='Your Password' />
-					<span>Show Password</span>
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder='Your Password'
+          />
+          <span onClick={handleShowPassword}>{ showPassword ? 'Hide password' : 'Show Password' }</span>
 				</PasswordContainer>
 				<FileWrapper>
 					<label htmlFor='file'>Profile pic</label>
