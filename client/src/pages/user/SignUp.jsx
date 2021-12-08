@@ -25,6 +25,11 @@ export const Container = styled.div`
       font-weight: bold;
     }
   }
+  @media screen and (max-width: 320px){
+    p{
+     font-size: 1.2rem;
+    }
+  }
 `;
 
 export const Form = styled.form`
@@ -76,6 +81,13 @@ export const PasswordContainer = styled.div`
     text-align: center;
     border-radius: 0.4rem;
   }
+  @media screen and (max-width: 500px){
+    flex-direction: column;
+    input, span{
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
 `;
 
 export const FileWrapper = styled.div`
@@ -100,6 +112,11 @@ export const FileWrapper = styled.div`
 		font-weight: bold;
 		font-style: italic;
 	}
+  @media screen and (max-width: 500px){
+    label{
+      width: 60%;
+    }
+  }
 `;
 
 export const SignUp = () => {
