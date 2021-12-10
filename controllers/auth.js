@@ -1,9 +1,11 @@
 import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 import User from '../models/user.js';
+import { keys } from '../config/keys.js';
 
 
 export const userControllers = {
-  signup: async ( req, res ) => {
+  signupUser: async ( req, res ) => {
     const userData = req.body;
     const { username, name, email, password, pic } = userData;
     try {
@@ -29,7 +31,7 @@ export const userControllers = {
 				return res.status(422).json({ error: 'Username already taken' });
 			}
       const user = await User.findOne( { email } )
-      if ( user ) return res.status( 400 ).json( { error: 'User with this email already exits.' } );
+      if ( user ) return res.status( 400 ).json( { error: 'User with this email already exists.' } );
       const hashedPassword = await bcrypt.hash( password, 12 );
       const newUser = await new User( {
         username,
@@ -39,9 +41,28 @@ export const userControllers = {
         pic
       } );
       await newUser.save();
-      res.status( 201 ).json( { message: 'Signup was successful.' } );
+      res.status( 201 ).json( { message: 'Signup successfully.' } );
     } catch (err) {
       res.status(500).json({error: err.message})
+    }
+  },
+  signinUser: async ( req, res ) => {
+    const userData = req.body;
+    const { email, password } = userData;
+    try {
+      if ( !email || !password )
+        return res.status( 422 ).json( { error: 'Please fill in all required fields.' } );
+      const user = await User.findOne( { email } );
+      if ( !user ) return res.status(422).json({ error: 'Email or password is incorrect.' });
+      const comparePassword = await bcrypt.compare( password, user.password );
+      if ( !comparePassword ) return res.status( 422 ).json( { error: 'Password or email is incorrect.' } );
+      const token = jwt.sign( { _id: user._id }, keys.JWT_SECRET, { expiresIn: '1d' } );
+      user.password = undefined;
+
+      res.status(200).json({message: 'Signin successfully.', user, token})
+    } catch ( err ) {
+      console.log(`Error: ${err}`);
+       res.status(500).json({ error: err.message });
     }
   }
 }
