@@ -7,3 +7,5 @@ export const userRouter = Router();
 userRouter.get( '/', userControllers.getAllUsers );
 
 userRouter.get( '/user/:userId', auth, userControllers.getAUser );
+
+userRouter.put( '/update-info', auth, userControllers.updateUser );
