@@ -4,7 +4,7 @@ import User from '../models/user.js';
 import { keys } from '../config/keys.js';
 
 
-export const userControllers = {
+export const authControllers = {
   signupUser: async ( req, res ) => {
     const userData = req.body;
     const { username, name, email, password, pic } = userData;

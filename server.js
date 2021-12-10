@@ -7,6 +7,7 @@ import cors from 'cors';
 import path from 'path';
 import { connectDB } from './config/db.js';
 import { authRouter } from './routes/auth.js';
+import { userRouter } from './routes/user.js';
 
 const app = express();
 connectDB();
@@ -18,7 +19,8 @@ app.get( '/', ( req, res ) => {
   res.send({hello: 'world. This is a test!!!!'})
 } )
 
-app.use('/api/auth', authRouter)
+app.use( '/api/auth', authRouter )
+app.use( '/api/users', userRouter );
 
 
 if ( process.env.NODE_ENV === 'production' ) {
