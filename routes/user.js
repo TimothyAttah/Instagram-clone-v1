@@ -10,4 +10,8 @@ userRouter.get( '/user/:userId', auth, userControllers.getAUser );
 
 userRouter.put( '/update-info', auth, userControllers.updateUser );
 
-userRouter.delete( '/delete/user/:userId', auth, userControllers.deleteUser );
+userRouter.delete( '/user/:userId/delete-account', auth, userControllers.deleteUser );
+
+userRouter.put('/follow', auth, userControllers.followUser);
+
+userRouter.put('/unfollow', auth, userControllers.unfollowUser);

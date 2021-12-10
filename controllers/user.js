@@ -85,4 +85,64 @@ export const userControllers = {
 			res.status(500).json({ error: err.message });
 		}
 	},
+	followUser: async (req, res) => {
+		await User.findByIdAndUpdate(
+			req.body.followId,
+			{
+				$push: { followers: req.user._id },
+			},
+			{
+				new: true,
+			},
+			(err, result) => {
+				if (err) {
+					return res.status(422).json({ error: err });
+				}
+				User.findByIdAndUpdate(
+					req.user._id,
+					{
+						$push: { following: req.body.followId },
+					},
+					{ new: true }
+				)
+					.select('-password')
+					.then(result => {
+						res.json({ message: 'You are now following this user.', result });
+					})
+					.catch(err => {
+						return res.status(422).json({ error: err });
+					});
+			}
+		);
+	},
+	unfollowUser: async (req, res) => {
+		User.findByIdAndUpdate(
+			req.body.unfollowId,
+			{
+				$pull: { followers: req.user._id },
+			},
+			{
+				new: true,
+			},
+			(err, result) => {
+				if (err) {
+					return res.status(422).json({ error: err });
+				}
+				User.findByIdAndUpdate(
+					req.user._id,
+					{
+						$pull: { following: req.body.unfollowId },
+					},
+					{ new: true }
+				)
+					.select('-password')
+					.then(result => {
+						res.status(200).json({ message: 'You unfollow this user', result });
+					})
+					.catch(err => {
+						return res.status(422).json({ error: err });
+					});
+			}
+		);
+	},
 };
