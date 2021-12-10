@@ -15,3 +15,9 @@ userRouter.delete( '/user/:userId/delete-account', auth, userControllers.deleteU
 userRouter.put('/follow', auth, userControllers.followUser);
 
 userRouter.put('/unfollow', auth, userControllers.unfollowUser);
+
+userRouter.put( '/update-pic', auth, userControllers.updateUserPic );
+
+userRouter.get('/search-users', auth, userControllers.searchUser);
+
+userRouter.post('/search-users', auth, userControllers.searchUsername);

@@ -145,4 +145,48 @@ export const userControllers = {
 			}
 		);
 	},
+	updateUserPic: async (req, res) => {
+		User.findByIdAndUpdate(
+			req.user._id,
+			{ $set: { pic: req.body.pic } },
+			{ new: true },
+			(err, result) => {
+				if (err) {
+					return res.status(422).json({ error: 'Pic cannot be uploaded' });
+				}
+				res.json({ message: 'Pic changed successfully', result });
+			}
+		);
+	},
+	searchUsername: async (req, res) => {
+		let userPattern = new RegExp('^' + req.body.query);
+		User.find({ email: { $regex: userPattern } })
+			.select('_id email username name followers following pic')
+			.then(user => {
+				res.json({ user });
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	},
+	searchUser: async (req, res) => {
+		const query = req.query.username;
+		let userPattern = new RegExp('^' + req.body.query);
+		let users;
+
+		try {
+			if (query) {
+				users = await User.find({ username: { $in: [query] } }).select(
+					'-password'
+				);
+			} else {
+				users = await User.find({ email: { $regex: userPattern } }).select(
+					'-password'
+				);
+			}
+			res.status(200).json({ users });
+		} catch (err) {
+			res.status(500).json({ error: err.message });
+		}
+	},
 };
