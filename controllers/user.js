@@ -69,4 +69,20 @@ export const userControllers = {
 			res.status(500).json({ error: err.message });
 		}
 	},
+	deleteUser: async (req, res) => {
+		const id = req.params.userId;
+		try {
+			if (!id)
+				return res
+					.status(403)
+					.json({ error: 'Unauthorized User. Request denied' });
+
+			const user = await User.findOne({ email: req.body.email });
+			if (!user) return res.status(422).json({ error: 'Invalid credentials' });
+			await User.findOneAndDelete({ _id: id });
+			res.status(200).json('User has been deleted...');
+		} catch (err) {
+			res.status(500).json({ error: err.message });
+		}
+	},
 };

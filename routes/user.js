@@ -9,3 +9,5 @@ userRouter.get( '/', userControllers.getAllUsers );
 userRouter.get( '/user/:userId', auth, userControllers.getAUser );
 
 userRouter.put( '/update-info', auth, userControllers.updateUser );
+
+userRouter.delete( '/delete/user/:userId', auth, userControllers.deleteUser );
