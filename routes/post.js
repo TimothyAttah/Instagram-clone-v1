@@ -5,3 +5,4 @@ import { postControllers } from '../controllers/post.js';
 export const postRouter = Router();
 
 postRouter.post( '/create', auth, postControllers.createPost );
+postRouter.get( '/', postControllers.getAllPosts );
