@@ -83,4 +83,45 @@ export const postControllers = {
 			res.status(500).json({ error: err.message });
 		}
 	},
+  deletePost: async ( req, res ) => {
+    	const _id = req.params.postId;
+		try {
+			//  Post.findOne({ _id: req.params.postId })
+			// 	// .populate('postedBy', '_id username pic')
+			// 	.exec((err, post) => {
+			// 		if (err || !post) {
+			// 			return res.status(422).json({ error: err });
+			// 		}
+			// 		if (post.postedBy._id.toString() === req.user._id.toString()) {
+			// 			post
+			// 				.remove()
+			// 				.then(result => {
+			// 					res.json({ message: 'Post deleted successfully.', result });
+			// 				})
+			// 				.catch(err => {
+			// 					console.log(err);
+			// 				});
+			// 		}
+			// 	});
+			//  Post.findOne({ _id })
+			// 		.populate('postedBy', '_id username pic')
+			// 		.exec(async (err, post) => {
+			// 			if (err, !post) {
+			// 				return res.status(404).json({ error: err });
+			// 			}
+			// 			if (post.postedBy._id.toString() === req.user._id.toString()) {
+			// 				const deletedNote = await post.remove();
+			// 				return res
+			// 					.status(200)
+			// 					.json({ message: 'Post deleted successfully', deletedNote });
+			// 			}
+			// 		});
+			const deletedPost = await Post.findByIdAndDelete(_id);
+			    res
+						.status(200)
+						.json({ message: 'Post deleted successfully', deletedPost });
+		} catch (err) {
+			res.status(500).json({ error: err.message });
+		}
+	},
 };
