@@ -8,6 +8,7 @@ import path from 'path';
 import { connectDB } from './config/db.js';
 import { authRouter } from './routes/auth.js';
 import { userRouter } from './routes/user.js';
+import { postRouter } from './routes/post.js';
 
 const app = express();
 connectDB();
@@ -21,6 +22,7 @@ app.get( '/', ( req, res ) => {
 
 app.use( '/api/auth', authRouter )
 app.use( '/api/users', userRouter );
+app.use( '/api/posts', postRouter );
 
 
 if ( process.env.NODE_ENV === 'production' ) {
