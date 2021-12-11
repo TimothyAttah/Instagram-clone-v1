@@ -83,8 +83,8 @@ export const postControllers = {
 			res.status(500).json({ error: err.message });
 		}
 	},
-  deletePost: async ( req, res ) => {
-    	const _id = req.params.postId;
+	deletePost: async (req, res) => {
+		const _id = req.params.postId;
 		try {
 			//  Post.findOne({ _id: req.params.postId })
 			// 	// .populate('postedBy', '_id username pic')
@@ -117,9 +117,35 @@ export const postControllers = {
 			// 			}
 			// 		});
 			const deletedPost = await Post.findByIdAndDelete(_id);
-			    res
-						.status(200)
-						.json({ message: 'Post deleted successfully', deletedPost });
+			res
+				.status(200)
+				.json({ message: 'Post deleted successfully', deletedPost });
+		} catch (err) {
+			res.status(500).json({ error: err.message });
+		}
+	},
+	deleteComment: async (req, res) => {
+		try {
+			const comment = { _id: req.params.comment_id };
+			Post.findByIdAndUpdate(
+				req.params.id,
+				{
+					$pull: { comments: comment },
+				},
+				{
+					new: true,
+				}
+			)
+				.populate('comments.postedBy', '_id username pic')
+				.populate('postedBy', '_id username pic')
+				.exec((err, postComment) => {
+					if (err || !postComment) {
+						return res.status(422).json({ error: err });
+					} else {
+						const result = postComment;
+						res.status(200).json({message: 'Comment deleted',result});
+					}
+				});
 		} catch (err) {
 			res.status(500).json({ error: err.message });
 		}
