@@ -45,4 +45,22 @@ export const postControllers = {
 			res.status(500).json({ error: err.message });
 		}
 	},
+	likePost: async (req, res) => {
+		try {
+			const post = await Post.findById(req.params.postId);
+			if (!post.likes.includes(req.body.userId)) {
+				await post
+					.updateOne({ $push: { likes: req.body.userId } })
+					.populate('postedBy', '_id username pic')
+					.populate('comments.postedBy', '_id username pic');
+				res.status(200).json({ message: 'The post has been liked.' });
+			} else {
+				await post.updateOne({ $pull: { likes: req.body.userId } });
+				res.status(200).json({ message: 'The post has been disliked.' });
+			}
+		} catch (err) {
+			console.log(err);
+			return res.status(500).json({ error: err });
+		}
+	},
 };
