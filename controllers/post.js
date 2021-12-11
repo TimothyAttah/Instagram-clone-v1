@@ -63,4 +63,24 @@ export const postControllers = {
 			return res.status(500).json({ error: err });
 		}
 	},
+	postComment: async (req, res) => {
+		const comment = {
+			text: req.body.text,
+			postedBy: req.user._id,
+		};
+		try {
+			const postComments = await Post.findByIdAndUpdate(
+				req.body.postId,
+				{
+					$push: { comments: comment },
+				},
+				{ new: true }
+			)
+				.populate('comments.postedBy', '_id username pic')
+				.populate('postedBy', '_id username pic');
+			res.status(201).json({ message: 'You post a comment', postComments });
+		} catch (err) {
+			res.status(500).json({ error: err.message });
+		}
+	},
 };

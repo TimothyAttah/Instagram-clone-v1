@@ -8,3 +8,4 @@ postRouter.post( '/create', auth, postControllers.createPost );
 postRouter.get( '/', postControllers.getAllPosts );
 postRouter.get( '/my-posts', auth, postControllers.getMyPosts );
 postRouter.put( '/:postId/like', auth, postControllers.likePost );
+postRouter.put( '/comment', auth, postControllers.postComment );
