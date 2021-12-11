@@ -6,3 +6,4 @@ export const postRouter = Router();
 
 postRouter.post( '/create', auth, postControllers.createPost );
 postRouter.get( '/', postControllers.getAllPosts );
+postRouter.get( '/my-posts', auth, postControllers.getMyPosts );

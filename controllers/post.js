@@ -32,4 +32,17 @@ export const postControllers = {
 			res.status(500).json({ error: err.message });
 		}
 	},
+	getMyPosts: async (req, res) => {
+		try {
+			const myPosts = await Post.find({ postedBy: req.user._id })
+				.populate('postedBy', '_id username name pic followers following')
+				.populate('comments.postedBy', '_id username name')
+				.populate('comments.postedBy', '_id username pic name')
+				.populate('postedBy', '_id username name pic')
+				.sort('-createdAt');
+			res.status(200).json({ myPosts });
+		} catch (err) {
+			res.status(500).json({ error: err.message });
+		}
+	},
 };
