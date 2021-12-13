@@ -8,6 +8,7 @@ import { Profile } from './pages/profiles/Profile';
 import { UserProfile } from './pages/profiles/UserProfile';
 import { SignUp } from './pages/user/SignUp';
 import { SignIn } from './pages/user/SignIn';
+import { user } from './components/user';
 
 export const App = () => {
   toast.configure();
