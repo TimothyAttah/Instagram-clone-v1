@@ -1,6 +1,7 @@
 import * as api from '../apis';
 import { authTypes } from '../types';
 import { toast } from 'react-toastify';
+import { history } from '../../history';
 
 export const signupUser = (userData) => async dispatch => {
   try {
@@ -10,7 +11,7 @@ export const signupUser = (userData) => async dispatch => {
 			payload: data,
     } );
     toast( data.message );
-    window.location.href = '/signin';
+    history.push( '/signin' );
   } catch (err) {
     if ( err.response && err.response.data ) {
       toast( err.response.data.error );
@@ -29,7 +30,8 @@ export const signinUser = (userData) => async dispatch => {
     localStorage.setItem( 'jwt', data.token );
     localStorage.setItem( 'user', JSON.stringify( data.user ) );
     toast( data.message );
-    window.location.href = '/';
+    history.push( '/' );
+    window.location.reload();
   } catch (err) {
     if ( err.response && err.response.data ) {
       toast( err.response.data.error );
@@ -44,5 +46,6 @@ export const signOutUser = () => async dispatch => {
   } )
   localStorage.removeItem( 'user' );
   toast.success( 'Sign out successful' );
-  window.location.href = '/signin';
+  history.push( '/signin' );
+  window.location.reload();
 }
