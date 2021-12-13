@@ -32,7 +32,7 @@ export const PostListItem = ( { post } ) => {
   const [ isLiked, setIsLiked ] = useState( false );
 
   useEffect( () => {
-    setIsLiked(post.likes?.includes(user.user_id))
+    setIsLiked(post.likes?.includes(user._id))
   }, [ setIsLiked, post.likes ] )
   
   const handleLike = ( id, userId ) => {
@@ -75,7 +75,7 @@ export const PostListItem = ( { post } ) => {
 				<PostItemTop>
 					<Link
 						to={
-							post.postedBy?._id !== user.user_id
+							post.postedBy?._id !== user._id
 								? '/profile/' + post.postedBy._id
 								: '/profile'
 						}
@@ -84,7 +84,7 @@ export const PostListItem = ( { post } ) => {
 						<span>{post?.postedBy.username}</span>
 					</Link>
 					<>
-						{post.postedBy._id === user.user_id && (
+						{post.postedBy._id === user._id && (
 							<Delete onClick={() => handleDeletePost(post._id)} />
 						)}
 					</>
@@ -96,10 +96,10 @@ export const PostListItem = ( { post } ) => {
 						<>
 							{isLiked ? (
 								<ThumbDown
-									onClick={() => handleUnlike(post._id, user.user_id)}
+									onClick={() => handleUnlike(post._id, user._id)}
 								/>
 							) : (
-								<ThumbUp onClick={() => handleLike(post._id, user.user_id)} />
+								<ThumbUp onClick={() => handleLike(post._id, user._id)} />
 							)}
 						</>
 					</PostItemCounter>
@@ -112,7 +112,7 @@ export const PostListItem = ( { post } ) => {
 					<h6>
 						<Link
 							to={
-								post.postedBy._id !== user.user_id
+								post.postedBy._id !== user._id
 									? '/profile/' + post.postedBy._id
 									: '/profile'
 							}
@@ -137,7 +137,7 @@ export const PostListItem = ( { post } ) => {
 							<div>
 								<Link
 									to={
-										comment?.postedBy?._id !== user.user_id
+										comment?.postedBy?._id !== user._id
 											? '/profile/' + comment?.postedBy?._id
 											: '/profile'
 									}
@@ -146,7 +146,7 @@ export const PostListItem = ( { post } ) => {
 								</Link>
 								<ReadMore>{comment?.text}</ReadMore>
 							</div>
-							{comment.postedBy._id === user.user_id && (
+							{comment.postedBy._id === user._id && (
 								<DeleteForeverRounded
 									onClick={() => handleDeleteCommentPost(post._id, comment._id)}
 								/>
