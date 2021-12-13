@@ -9,3 +9,9 @@ export const postTypes = {
   CRATE_COMMENT_POST: 'CRATE_COMMENT_POST',
   DELETE_COMMENT_POST: 'DELETE_COMMENT_POST',
 }
+
+export const authTypes = {
+  SIGN_UP: 'SIGN_UP',
+  SIGN_IN: 'SIGN_IN',
+  SIGN_OUT: 'SIGN_OUT',
+}

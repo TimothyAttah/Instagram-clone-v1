@@ -5,13 +5,6 @@ import { keys } from './keys.js';
 
 export const connectDB = async () => {
   try {
-    // const mongoDB = await mongoose.connect(keys.MONGODB_URL, {
-		// 	useNewUrlParser: true,
-		// 	useUnifiedTopology: true,
-		// });
-		// console.log(`MongoDB connected on host: ${mongoDB.connection.host}`);
-
-
     const mongoDB = await mongoose.connect(keys.MONGODB_URL, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
