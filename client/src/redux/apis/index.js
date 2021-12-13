@@ -3,7 +3,7 @@ import axios from 'axios';
 // export const baseURL = 'https://instagram-clone-app-v1.herokuapp.com';
 export const baseURL = 'http://localhost:5000/api';
 
-const API = axios.create( { baseURL: baseURL } );
+export const API = axios.create( { baseURL: baseURL } );
 
 API.interceptors.request.use( req => {
   if ( localStorage.getItem( 'jwt' ) ) {
@@ -19,5 +19,6 @@ export const getAllUsers = () => API.get( '/users' );
 
 
 
+export const createPost = ( postData ) => API.post( '/posts/create', postData );
 export const getAllPost = () => API.get( '/posts' );
 export const likeUnlikePost = ( postId, userId ) => API.put( `/posts/${ postId }/like`, userId );

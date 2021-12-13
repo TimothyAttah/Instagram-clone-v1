@@ -1,41 +1,74 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { v4 } from 'uuid';
 import { createPost } from '../../redux/actions/posts';
+import { API } from '../../redux/apis';
 
 export const PostCreate = () => {
   const dispatch = useDispatch();
   const [ body, setBody ] = useState( '' );
+const [file, setFile] = useState('');
+const [uploadedFile, setUploadedFile] = useState({});
 
-  const handleSubmit = ( e ) => {
+const onChange = (e) => {
+	setFile(e.target.files[0]);
+};
+
+  const handleSubmit = async ( e ) => {
     e.preventDefault();
-    const newPost = {
-			_id: v4(),
-			photo: '',
-      likes: [],
-      comments: [],
-			body,
-			createdAt: 'June 15 2020',
-			postedBy: {
-				_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
-				username: 'Trisha Nick',
-			},
-		};
-    dispatch( createPost( newPost ) );
-    console.log('New Post!!!!!', newPost);
+
+const formData = new FormData();
+formData.append('file', file);
+
+try {
+			const res = await API.post('/upload', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+			});
+
+			const { fileName, filePath } = res.data;
+
+			setUploadedFile({ fileName, filePath });
+
+			const newPost = {
+				// userId: user?._id,
+				body,
+				photo: fileName,
+			};
+			dispatch(createPost(newPost));
+			setBody('');
+			// setFile(null);
+			setFile('');
+		} catch (err) {
+			if (err.response.status === 500) {
+				console.log('There was a problem with the server');
+			} else {
+				console.log(err.response.data.msg);
+			}
+		}
+    
   }
   return (
-    <div>
-      <h1>Post create</h1>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name='body'
-          value={ body }
-          onChange={e=> setBody(e.target.value)}
-        />
-        <button type='submit'>Create Post</button>
-      </form>
-    </div>
-  )
+		<div>
+			<h1>Post create</h1>
+			<form onSubmit={handleSubmit}>
+				<input
+					type='text'
+					name='body'
+					value={body}
+					onChange={e => setBody(e.target.value)}
+				/>
+				<input
+					type='file'
+					id='file'
+					accept='.png, .jpg, .jpeg'
+					// value={file}
+					onChange={onChange}
+				/>
+				<button type='submit'>Create Post</button>
+			</form>
+		</div>
+	);
 }

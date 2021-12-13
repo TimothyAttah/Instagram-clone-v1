@@ -1,10 +1,10 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import User from '../models/user.js';
-import { keys } from '../config/keys.js';
+const bcrypt = require('bcryptjs') ;
+const jwt = require('jsonwebtoken') ;
+const User = require('../models/user') ;
+const { keys } = require('../config/keys'); ;
 
 
-export const authControllers = {
+const authControllers = {
 	signupUser: async (req, res) => {
 		const userData = req.body;
 		const { username, name, email, password, pic } = userData;
@@ -140,3 +140,5 @@ export const authControllers = {
 		});
 	},
 };
+
+module.exports = { authControllers };

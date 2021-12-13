@@ -177,7 +177,7 @@ export const posts = ( state = initialState, action ) => {
 			return {
 				...state,
 				posts: state.posts.map(post =>
-					post._id === action.payload._id
+					post._id === action.payload.postId
 						? {
 								...post,
 								likes: post.likes.filter(

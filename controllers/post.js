@@ -1,7 +1,6 @@
-import { json } from "express";
-import Post from "../models/post.js";
+const Post = require('../models/post');
 
-export const postControllers = {
+const postControllers = {
 	createPost: async (req, res) => {
 		const postData = req.body;
 		const { body, pic } = postData;
@@ -143,7 +142,7 @@ export const postControllers = {
 						return res.status(422).json({ error: err });
 					} else {
 						const result = postComment;
-						res.status(200).json({message: 'Comment deleted',result});
+						res.status(200).json({ message: 'Comment deleted', result });
 					}
 				});
 		} catch (err) {
@@ -151,3 +150,6 @@ export const postControllers = {
 		}
 	},
 };
+
+
+module.exports = { postControllers };

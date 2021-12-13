@@ -6,8 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { user } from '../../components/user';
 import {
-	likePost,
-  unlikePost, deletePost, deleteCommentPost,
+	deletePost, deleteCommentPost,
 	createCommentPost,
 	likeAndUnlikePost
 } from '../../redux/actions/posts';
@@ -25,7 +24,6 @@ import {
 	PostItems,
 	Form
 } from './PostListItemStyles';
-import axios from 'axios';
 
 export const PostListItem = ( { post } ) => {
   const dispatch = useDispatch();
@@ -40,21 +38,8 @@ export const PostListItem = ( { post } ) => {
   const handleLike = async ( postId, userId ) => {
     dispatch( likeAndUnlikePost( postId, userId ) )
 
-// try {
-// 	await axios.put(`/posts/${post._id}/like`, { userId: user?._id });
-// } catch (err) {
-// 	console.log(err);
-// }
-
-
     setLike( isLiked > 0 ? like - 1 : like + 1 )
     setIsLiked(!isLiked)
-  }
-
-  const handleUnlike = ( id, userId ) => {
-    dispatch( unlikePost( id, userId ) )
-    setLike(isLiked > 0 ? like - 1 : like + 1);
-		setIsLiked(!isLiked);
   }
 
   const handleDeletePost = ( id ) => {

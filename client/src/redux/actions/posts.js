@@ -4,15 +4,22 @@ import { toast } from 'react-toastify';
 import { history } from '../../history';
 
 
-export const createPost = (posts) => async dispatch =>{
-  dispatch( {
-    type: postTypes.CREATE_POST,
-    payload: posts
-  } )
-  toast.success( 'New post created' );
-  window.location.href='/'
+export const createPost = (postData) => async dispatch =>{
+  try {
+    const { data } = await api.createPost( postData );
+    dispatch({
+			type: postTypes.CREATE_POST,
+			payload: data.post
+		});
+		toast.success(data.message);
+		// history.push('/');
+  } catch (err) {
+    if (err.response && err.response.data) {
+			toast.error(err.response.data.error);
+		}
+  }
 }
-export const listPosts = posts => async dispatch => {
+export const listPosts = () => async dispatch => {
   try {
     const { data } = await api.getAllPost();
     dispatch({
@@ -54,12 +61,13 @@ export const likePost = ( postId, userId ) => async dispatch => {
   } )
   toast.success(data.message);
 }
-export const unlikePost = (_id, userId) => async dispatch =>{
+export const unlikePost = ( postId, userId ) => async dispatch => {
+  const { data } = await api.likeUnlikePost(postId, userId);
   dispatch( {
     type: postTypes.UNLIKE_POST,
-    payload: {_id, userId}
+    payload: {postId, userId}
   } )
-  toast.success('You unlike this post');
+  toast.success(data.message);
 }
 export const likeAndUnlikePost = (postId, userId) => async dispatch => {
 	const { data } = await api.likeUnlikePost(postId, userId);
