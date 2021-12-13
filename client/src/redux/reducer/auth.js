@@ -15,7 +15,7 @@ export const auth = ( state = initialState, action ) => {
     case authTypes.SIGN_OUT:
       return {
         ...state,
-        auth: null
+        auth: action.payload
       }
     default:
       return state;

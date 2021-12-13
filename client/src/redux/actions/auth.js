@@ -36,3 +36,13 @@ export const signinUser = (userData) => async dispatch => {
     }
   }
 }
+
+export const signOutUser = () => async dispatch => {
+  dispatch( {
+    type: authTypes.SIGN_OUT,
+    payload: null
+  } )
+  localStorage.removeItem( 'user' );
+  toast.success( 'Sign out successful' );
+  window.location.href = '/signin';
+}
