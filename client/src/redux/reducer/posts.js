@@ -122,52 +122,71 @@ const initialState = {
 };
 
 export const posts = ( state = initialState, action ) => {
-	switch ( action.type ) {
-    case postTypes.CREATE_POST:
-      return {
-        ...state,
-        posts: [action.payload, ...state.posts]
-      }
-    case postTypes.LIST_POST:
-      return {
-        ...state,
-        posts: state.posts.map(post => post._id === action.payload._id ? action.payload.post : post)
-      }
-    case postTypes.LIST_POSTS:
-      return {
-        ...state,
-      }
-    case postTypes.DELETE_POST:
-      return {
-        ...state,
-        posts: state.posts.filter(post => post._id !== action.payload)
-      }
-    case postTypes.EDIT_POST:
-      return {
-        ...state,
-        posts: state.posts.map(post => post._id === action.payload._id ? action.payload.post : post)
-			}
+	switch (action.type) {
+		case postTypes.CREATE_POST:
+			return {
+				...state,
+				posts: [action.payload, ...state.posts],
+			};
+		case postTypes.LIST_POSTS:
+			return {
+				...state,
+				posts: action.payload
+			};
+		case postTypes.LIST_POST:
+			return {
+				...state,
+				posts: state.posts.map(post =>
+					post._id === action.payload._id ? action.payload.post : post
+				),
+			};
+		case postTypes.DELETE_POST:
+			return {
+				...state,
+				posts: state.posts.filter(post => post._id !== action.payload),
+			};
+		case postTypes.EDIT_POST:
+			return {
+				...state,
+				posts: state.posts.map(post =>
+					post._id === action.payload._id ? action.payload.post : post
+				),
+			};
 		case postTypes.LIKE_POST:
 			return {
 				...state,
-				posts: state.posts.map( post =>
-					post._id === action.payload._id ? {...post, likes: [...post.likes, action.payload.userId]} : post
-				)
+				posts: state.posts.map(post =>
+					post._id === action.payload.postId
+						? { ...post, likes: [...post.likes, action.payload.userId] }
+						: post
+				),
+			};
+
+		// return {
+		// 	...state,
+		// 	posts: state.posts.map(post =>
+		// 		post._id === action.payload._id ? action.payload : post
+		// 	),
+		// };
+		case postTypes.LIKE_AND_UNLIKE_POST:
+			return {
+				...state,
+				posts: action.payload
 			}
-		
-			// return {
-			// 	...state,
-			// 	posts: state.posts.map(post =>
-			// 		post._id === action.payload._id ? action.payload : post
-			// 	),
-			// };
 		case postTypes.UNLIKE_POST:
 			return {
 				...state,
-				posts: state.posts.map( post =>
-					post._id === action.payload._id ? {...post, likes:  post.likes.filter(like => like !== action.payload.userId)} : post
-				)
-			}
+				posts: state.posts.map(post =>
+					post._id === action.payload._id
+						? {
+								...post,
+								likes: post.likes.filter(
+									like => like !== action.payload.userId
+								),
+						  }
+						: post
+				),
+			};
 		case postTypes.CRATE_COMMENT_POST:
 			return {
 				...state,
@@ -180,11 +199,18 @@ export const posts = ( state = initialState, action ) => {
 		case postTypes.DELETE_COMMENT_POST:
 			return {
 				...state,
-				posts: state.posts.map( post =>
-					post._id === action.payload._id ? {...post, comments: post.comments.filter(comment => comment._id !== action.payload.commentId ) } : post
-				)
-			}
-    default:
-      return state
-  }
+				posts: state.posts.map(post =>
+					post._id === action.payload._id
+						? {
+								...post,
+								comments: post.comments.filter(
+									comment => comment._id !== action.payload.commentId
+								),
+						  }
+						: post
+				),
+			};
+		default:
+			return state;
+	}
 }

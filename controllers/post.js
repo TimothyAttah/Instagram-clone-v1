@@ -53,10 +53,10 @@ export const postControllers = {
 					.updateOne({ $push: { likes: req.body.userId } })
 					.populate('postedBy', '_id username pic')
 					.populate('comments.postedBy', '_id username pic');
-				res.status(200).json({ message: 'The post has been liked.' });
+				res.status(200).json({ message: 'You like this post.' });
 			} else {
 				await post.updateOne({ $pull: { likes: req.body.userId } });
-				res.status(200).json({ message: 'The post has been disliked.' });
+				res.status(200).json({ message: 'You dislike this post.' });
 			}
 		} catch (err) {
 			console.log(err);

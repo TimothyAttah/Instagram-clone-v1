@@ -8,7 +8,8 @@ import { user } from '../../components/user';
 import {
 	likePost,
   unlikePost, deletePost, deleteCommentPost,
-  createCommentPost
+	createCommentPost,
+	likeAndUnlikePost
 } from '../../redux/actions/posts';
 import { v4 } from 'uuid';
 import { ReadMore } from '../../components/ReadMore';
@@ -24,6 +25,7 @@ import {
 	PostItems,
 	Form
 } from './PostListItemStyles';
+import axios from 'axios';
 
 export const PostListItem = ( { post } ) => {
   const dispatch = useDispatch();
@@ -35,8 +37,16 @@ export const PostListItem = ( { post } ) => {
     setIsLiked(post.likes?.includes(user._id))
   }, [ setIsLiked, post.likes ] )
   
-  const handleLike = ( id, userId ) => {
-    dispatch( likePost( id, userId ) )
+  const handleLike = async ( postId, userId ) => {
+    dispatch( likeAndUnlikePost( postId, userId ) )
+
+// try {
+// 	await axios.put(`/posts/${post._id}/like`, { userId: user?._id });
+// } catch (err) {
+// 	console.log(err);
+// }
+
+
     setLike( isLiked > 0 ? like - 1 : like + 1 )
     setIsLiked(!isLiked)
   }
@@ -96,10 +106,12 @@ export const PostListItem = ( { post } ) => {
 						<>
 							{isLiked ? (
 								<ThumbDown
-									onClick={() => handleUnlike(post._id, user._id)}
+									onClick={() => handleLike(post._id, { userId: user._id })}
 								/>
 							) : (
-								<ThumbUp onClick={() => handleLike(post._id, user._id)} />
+								<ThumbUp
+									onClick={() => handleLike(post._id, { userId: user._id })}
+								/>
 							)}
 						</>
 					</PostItemCounter>
