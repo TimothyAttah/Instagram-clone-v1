@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signupUser } from '../../redux/actions/auth';
 import {
   Container,
   FileWrapper,
@@ -8,6 +10,7 @@ import {
 } from './Styles';
 
 export const SignUp = () => {
+	const dispatch = useDispatch();
   const [ showPassword, setShowPassword ] = useState( false );
   const [ userData, setUserData ] = useState( {
     username: '',
@@ -25,7 +28,8 @@ export const SignUp = () => {
   }
 
   const handleOnSubmit = ( e ) => {
-    e.preventDefault();
+		e.preventDefault();
+		dispatch( signupUser( userData ) );
     console.log('User data>>>>>', userData);
   }
   return (
