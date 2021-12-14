@@ -1,27 +1,24 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { v4 } from 'uuid';
 import { createPost } from '../../redux/actions/posts';
 import { API } from '../../redux/apis';
 
 export const PostCreate = () => {
-  const dispatch = useDispatch();
-  const [ body, setBody ] = useState( '' );
-const [file, setFile] = useState('');
-const [uploadedFile, setUploadedFile] = useState({});
+	const dispatch = useDispatch();
+	const [body, setBody] = useState('');
+	const [file, setFile] = useState('');
+	const [uploadedFile, setUploadedFile] = useState({});
 
-const onChange = (e) => {
-	setFile(e.target.files[0]);
-};
+	const onChange = e => {
+		setFile(e.target.files[0]);
+	};
 
-  const handleSubmit = async ( e ) => {
-    e.preventDefault();
+	const handleSubmit = async e => {
+		e.preventDefault();
+		const formData = new FormData();
+		formData.append('file', file);
 
-const formData = new FormData();
-formData.append('file', file);
-
-try {
+		try {
 			const res = await API.post('/upload', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
@@ -48,9 +45,8 @@ try {
 				console.log(err.response.data.msg);
 			}
 		}
-    
-  }
-  return (
+	};
+	return (
 		<div>
 			<h1>Post create</h1>
 			<form onSubmit={handleSubmit}>
@@ -71,4 +67,4 @@ try {
 			</form>
 		</div>
 	);
-}
+};

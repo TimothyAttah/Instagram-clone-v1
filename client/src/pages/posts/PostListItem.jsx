@@ -85,7 +85,7 @@ export const PostListItem = ( { post } ) => {
 					</>
 				</PostItemTop>
 				<PostItemCenter>
-					<img src={post?.photo} alt='' />
+					<img src={`/uploads/${post.photo}`} alt='' />
 					<PostItemCounter>
 						<Favorite />
 						<>

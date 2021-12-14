@@ -3,14 +3,14 @@ const Post = require('../models/post');
 const postControllers = {
 	createPost: async (req, res) => {
 		const postData = req.body;
-		const { body, pic } = postData;
+		const { body, photo } = postData;
 		try {
-			if (!body || !pic)
+			if (!body || !photo)
 				return res.status(422).json({ error: 'Enter text and pic' });
 			req.user.password = undefined;
 			const post = await new Post({
 				body,
-				photo: pic,
+				photo,
 				postedBy: req.user,
 			});
 			await post.save();

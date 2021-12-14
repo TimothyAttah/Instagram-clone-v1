@@ -11,8 +11,9 @@ export const createPost = (postData) => async dispatch =>{
 			type: postTypes.CREATE_POST,
 			payload: data.post
 		});
-		toast.success(data.message);
-		// history.push('/');
+    toast.success( data.message );
+    console.log('New post action>>>>>>>>>>>>', data);
+		history.push('/');
   } catch (err) {
     if (err.response && err.response.data) {
 			toast.error(err.response.data.error);
