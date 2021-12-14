@@ -40,12 +40,13 @@ export const listPost = (post, _id) => async dispatch =>{
     payload: {post, _id}
   })
 }
-export const deletePost = ( _id) => async dispatch =>{
+export const deletePost = ( _id ) => async dispatch => {
+  const { data } = await api.deletePost( _id );
   dispatch( {
     type: postTypes.DELETE_POST,
     payload: _id
   } )
-  toast.success('Post deleted successfully!!!')
+  toast.success( data.message );
 }
 export const editPost = (post, _id) => async dispatch =>{
   dispatch( {

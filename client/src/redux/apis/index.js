@@ -22,3 +22,5 @@ export const getAllUsers = () => API.get( '/users' );
 export const createPost = ( postData ) => API.post( '/posts/create', postData );
 export const getAllPost = () => API.get( '/posts' );
 export const likeUnlikePost = ( postId, userId ) => API.put( `/posts/${ postId }/like`, userId );
+export const deletePost = ( postId ) => API.delete( `/posts/delete/${ postId }` );
+
