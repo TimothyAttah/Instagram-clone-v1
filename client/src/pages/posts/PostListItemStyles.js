@@ -47,7 +47,7 @@ export const PostItemTop = styled.div`
 
 export const PostItemCenter = styled.div`
 	img {
-		width: 20rem;
+		width: 28rem;
 		vertical-align: middle;
 		margin-bottom: 3rem;
 	}
