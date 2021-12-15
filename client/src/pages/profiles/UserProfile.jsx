@@ -1,7 +1,10 @@
 import { Avatar } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { listPosts } from '../../redux/actions/posts';
+import { getUser } from '../../redux/actions/user';
+import { API } from '../../redux/apis';
 import { ProfilePostList } from './ProfilePostList';
 import {
 	ProfileBottomButtonWrapper,
@@ -19,10 +22,24 @@ export const UserProfile = () => {
 	const dispatch = useDispatch();
 	const [showGallery, setShowGallery] = useState(false);
 	const [ follow, setFollow] = useState(false);
-	const { posts } = useSelector(state => state.posts);
-	useEffect(() => {
-		dispatch(listPosts());
-	}, [dispatch]);
+	const { userId } = useParams();
+	const [userProfile, setUserProfile] = useState()
+	useEffect( () => {
+		// dispatch( listPosts() );
+		dispatch(getUser(userId));
+	}, [dispatch, userId]);
+	const { posts } = useSelector( state => state.posts );
+
+	useEffect( () => {
+		const getUserProfile = async () => {
+			const { data } = await API.get( `/users/user/${ userId }` );
+			setUserProfile(data)
+			console.log( 'this user data ......', data );
+		}
+		getUserProfile();
+	}, [userId] );
+
+console.log('this is user profile', userProfile);
 
 	const handleShowGallery = () => {
 		setShowGallery(true);
@@ -37,9 +54,11 @@ export const UserProfile = () => {
   }
   const handleUnfollowUser = () => {
     setFollow( false );
-  }
+	}
+	
+	
 
-	console.log('My Posts>>>>>>', posts);
+	console.log('My Posts>>>>>>', userProfile?.posts);
 	return (
 		<ProfileContainer>
 			<ProfileTop>
@@ -67,7 +86,11 @@ export const UserProfile = () => {
 						</div>
 					</ProfileTopInfoWrapper>
 					<ProfileTopButtonWrapper primary>
-						{follow ? <button onClick={handleUnfollowUser}>Unfollow</button> : <button onClick={handleFollowUser}>Follow</button>}
+						{follow ? (
+							<button onClick={handleUnfollowUser}>Unfollow</button>
+						) : (
+							<button onClick={handleFollowUser}>Follow</button>
+						)}
 					</ProfileTopButtonWrapper>
 				</ProfileTopRight>
 			</ProfileTop>
@@ -81,8 +104,8 @@ export const UserProfile = () => {
 					<h1>Gallery coming soon...</h1>
 				) : (
 					<div className='profileBottomPostsContainer'>
-						{posts.length ? (
-							posts.map(post => (
+						{userProfile?.posts.length ? (
+							userProfile.posts.map(post => (
 								<div key={post._id}>
 									<ProfilePostList post={post} />
 								</div>

@@ -24,7 +24,7 @@ export const getUser = ( userId ) => async dispatch => {
       type: userTypes.GET_A_USER,
       payload: data
     } )
-    console.log('My posts<<>>>>>>', data);
+    console.log('Get My posts <<>>>>>>', data);
   } catch (err) {
     if ( err.response && err.response.data ) {
       toast.error( err.response.data.error );

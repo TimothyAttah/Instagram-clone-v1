@@ -7,7 +7,6 @@ import {
 	deleteCommentPost,
 	createCommentPost,
 } from '../../redux/actions/posts';
-import { getUser } from '../../redux/actions/user';
 import {
 	Delete,
 	Favorite,
@@ -32,28 +31,19 @@ import {
 	Form,
 } from '../posts/PostListItemStyles';
 import { ReadMore } from '../../components/ReadMore';
-import { Link, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Avatar } from '@material-ui/core';
 
 export const ProfilePostList = ( { post } ) => {
   const dispatch = useDispatch();
-  const [text, setText] = useState('');
-	const [like, setLike] = useState(post?.likes.length);
+	const [ text, setText ] = useState( '' );
+	const [ like, setLike ] = useState( post?.likes?.length );
 	const [ isLiked, setIsLiked ] = useState( false );
 	
-	const {userId} = useParams();
-	console.log('userId', userId);
-
-	useEffect( () => {
-		dispatch( getMyPosts() );
-	}, [ dispatch,] );
-
-
 	useEffect(() => {
 		setIsLiked(post.likes?.includes(user._id));
 	}, [ setIsLiked, post.likes ] );
 	
-
 
 	const handleLike = (id, userId) => {
 		dispatch(likePost(id, userId));
@@ -96,8 +86,8 @@ export const ProfilePostList = ( { post } ) => {
 				<PostItemTop>
 					<Link
 						to={
-							post.postedBy?._id !== user._id
-								? '/users/profile/' + post.postedBy._id
+							post?.postedBy?._id !== user._id
+								? '/users/profile/' + post?.postedBy._id
 								: '/users/profile'
 						}
 					>

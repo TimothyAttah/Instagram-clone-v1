@@ -14,27 +14,28 @@ const userControllers = {
 	getAUser: async (req, res) => {
 		const _id = req.params.userId;
 		try {
-		 const user = await User.findOne({ _id })
-				.select('-password')
-				.populate('followers', 'username name email pic')
-				.populate('following', 'username name email pic')
-				// .populate('postedBy', '_id username pic followers following')
-				.populate('comments.postedBy', '_id username')
-				.populate('comments.postedBy', '_id username pic')
-				// .populate('postedBy', '_id username pic')
-				.sort('-createdAt');
-			const posts = await Post.find({ postedBy: req.params.id })
-				// .populate('postedBy', '_id username pic followers following')
-				.populate('comments.postedBy', '_id username')
-				.populate('comments.postedBy', '_id username pic')
-				// .populate('postedBy', '_id username pic')
-				.sort('-createdAt');
-			if (!user)
-				return res
-					.status(404)
-					.json({ error: 'This account is not yours. Access denied' });
+			 const user = await User.findOne({ _id })
+					.select('-password')
+					.populate('followers', 'username name email pic')
+					.populate('following', 'username name email pic')
+					.populate('postedBy', '_id username pic followers following')
+					.populate('comments.postedBy', '_id username')
+					.populate('comments.postedBy', '_id username pic')
+					.populate('postedBy', '_id username pic')
+					.sort('-createdAt');
+				const posts = await Post.find({ postedBy: _id })
+					.populate('postedBy', '_id username pic followers following')
+					.populate('comments.postedBy', '_id username')
+					.populate('comments.postedBy', '_id username pic')
+					.populate('postedBy', '_id username pic')
+					.sort('-createdAt');
+				if (!user)
+					return res
+						.status(404)
+						.json({ error: 'This account is not yours. Access denied' });
 
-			res.status(200).json({ user, posts });
+				res.status(200).json({ user, posts });
+		
 		} catch (err) {
 			console.log(`Error: ${err.message}`);
 			res.status(500).json({ error: err.message });
