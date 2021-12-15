@@ -7,6 +7,7 @@ const initialState = {
 export const user = ( state = initialState, action ) => {
   switch ( action.type ) {
     case userTypes.GET_ALL_USERS:
+    case userTypes.GET_A_USER:
       return {
         ...state,
         user: action.payload

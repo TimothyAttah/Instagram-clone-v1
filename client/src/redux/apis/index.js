@@ -16,11 +16,13 @@ export const signupUser = ( userData ) => API.post( '/auth/signup', userData );
 export const signinUser = ( userData ) => API.post( '/auth/signin', userData );
 
 export const getAllUsers = () => API.get( '/users' );
+export const getAUser = (userId) => API.get( `/users/user/${userId}` );
 
 
 
 export const createPost = ( postData ) => API.post( '/posts/create', postData );
 export const getAllPost = () => API.get( '/posts' );
+export const getMyPosts = () => API.get( '/posts/my-posts' );
 export const likeUnlikePost = ( postId, userId ) => API.put( `/posts/${ postId }/like`, userId );
 export const deletePost = ( postId ) => API.delete( `/posts/delete/${ postId }` );
 export const commentPost = ( comment ) => API.put( `/posts/comment`, comment );

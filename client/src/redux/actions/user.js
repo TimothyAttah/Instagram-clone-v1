@@ -16,3 +16,18 @@ export const getAllUsers = () => async dispatch => {
    }
  }
 }
+
+export const getUser = ( userId ) => async dispatch => {
+  try {
+    const { data } = await api.getAUser( userId );
+    dispatch( {
+      type: userTypes.GET_A_USER,
+      payload: data
+    } )
+    console.log('My posts<<>>>>>>', data);
+  } catch (err) {
+    if ( err.response && err.response.data ) {
+      toast.error( err.response.data.error );
+    }
+  }
+}

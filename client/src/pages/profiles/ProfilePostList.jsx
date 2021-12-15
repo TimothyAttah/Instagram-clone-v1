@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {
+	getMyPosts,
 	likePost,
 	unlikePost,
 	deletePost,
 	deleteCommentPost,
 	createCommentPost,
 } from '../../redux/actions/posts';
+import { getUser } from '../../redux/actions/user';
 import {
 	Delete,
 	Favorite,
@@ -18,7 +20,6 @@ import { user } from '../../components/user';
 import { v4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import {
-	PostCommentContainer,
 	PostCommentFormContainer,
 	PostCommentOptions,
 	PostItemBottom,
@@ -31,18 +32,28 @@ import {
 	Form,
 } from '../posts/PostListItemStyles';
 import { ReadMore } from '../../components/ReadMore';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Avatar } from '@material-ui/core';
 
 export const ProfilePostList = ( { post } ) => {
   const dispatch = useDispatch();
   const [text, setText] = useState('');
 	const [like, setLike] = useState(post?.likes.length);
-	const [isLiked, setIsLiked] = useState(false);
+	const [ isLiked, setIsLiked ] = useState( false );
+	
+	const {userId} = useParams();
+	console.log('userId', userId);
+
+	useEffect( () => {
+		dispatch( getMyPosts() );
+	}, [ dispatch,] );
+
 
 	useEffect(() => {
-		setIsLiked(post.likes?.includes(user.user_id));
-	}, [setIsLiked, post.likes]);
+		setIsLiked(post.likes?.includes(user._id));
+	}, [ setIsLiked, post.likes ] );
+	
+
 
 	const handleLike = (id, userId) => {
 		dispatch(likePost(id, userId));
@@ -85,7 +96,7 @@ export const ProfilePostList = ( { post } ) => {
 				<PostItemTop>
 					<Link
 						to={
-							post.postedBy?._id !== user.user_id
+							post.postedBy?._id !== user._id
 								? '/users/profile/' + post.postedBy._id
 								: '/users/profile'
 						}
@@ -94,22 +105,20 @@ export const ProfilePostList = ( { post } ) => {
 						<span>{post?.postedBy.username}</span>
 					</Link>
 					<>
-						{post.postedBy._id === user.user_id && (
+						{post.postedBy._id === user._id && (
 							<Delete onClick={() => handleDeletePost(post._id)} />
 						)}
 					</>
 				</PostItemTop>
 				<PostItemCenter>
-					<img src={post?.photo} alt='' />
+					<img src={`/uploads/${post?.photo}`} alt='' />
 					<PostItemCounter>
 						<Favorite />
 						<>
 							{isLiked ? (
-								<ThumbDown
-									onClick={() => handleUnlike(post._id, user.user_id)}
-								/>
+								<ThumbDown onClick={() => handleUnlike(post._id, user._id)} />
 							) : (
-								<ThumbUp onClick={() => handleLike(post._id, user.user_id)} />
+								<ThumbUp onClick={() => handleLike(post._id, user._id)} />
 							)}
 						</>
 					</PostItemCounter>
@@ -122,7 +131,7 @@ export const ProfilePostList = ( { post } ) => {
 					<h6>
 						<Link
 							to={
-								post.postedBy._id !== user.user_id
+								post.postedBy._id !== user._id
 									? '/users/profile/' + post.postedBy._id
 									: '/users/profile'
 							}
@@ -147,7 +156,7 @@ export const ProfilePostList = ( { post } ) => {
 							<div>
 								<Link
 									to={
-										comment?.postedBy?._id !== user.user_id
+										comment?.postedBy?._id !== user._id
 											? '/users/profile/' + comment?.postedBy?._id
 											: '/users/profile'
 									}
@@ -156,7 +165,7 @@ export const ProfilePostList = ( { post } ) => {
 								</Link>
 								<ReadMore>{comment?.text}</ReadMore>
 							</div>
-							{comment.postedBy._id === user.user_id && (
+							{comment.postedBy._id === user._id && (
 								<DeleteForeverRounded
 									onClick={() => handleDeleteCommentPost(post._id, comment._id)}
 								/>

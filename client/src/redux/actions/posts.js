@@ -34,12 +34,26 @@ export const listPosts = () => async dispatch => {
     }
   }
 };
-export const listPost = (post, _id) => async dispatch =>{
-  dispatch( {
-    type: postTypes.CREATE_POST,
-    payload: {post, _id}
-  })
+export const getMyPosts = () => async dispatch => {
+  try {
+    const { data } = await api.getMyPosts();
+    dispatch( {
+      type: postTypes.LIST_POST,
+      payload: data.myPosts
+    } )
+    console.log('My posts action', data.myPosts);
+  } catch (err) {
+     if (err.response && err.response.data) {
+				toast.error(err.response.data.error);
+			}
+  }
 }
+// export const listPost = (post, _id) => async dispatch =>{
+//   dispatch( {
+//     type: postTypes.CREATE_POST,
+//     payload: {post, _id}
+//   })
+// }
 export const deletePost = ( _id ) => async dispatch => {
   const { data } = await api.deletePost( _id );
   dispatch( {
