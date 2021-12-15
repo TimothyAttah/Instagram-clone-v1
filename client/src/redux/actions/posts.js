@@ -80,13 +80,23 @@ export const likeAndUnlikePost = (postId, userId) => async dispatch => {
 	toast.success(data.message);
 };
 
-export const createCommentPost = (_id, text) => async dispatch =>{
-  dispatch( {
-    type: postTypes.CRATE_COMMENT_POST,
-    payload: {_id, text}
-  } )
-  toast.success('You post a comment');
+export const createCommentPost = ( _id, text ) => async dispatch => {
+  const { data } = await api.commentPost( text );
+  dispatch({
+		type: postTypes.CRATE_COMMENT_POST,
+		payload: { _id, text },
+	});
+  toast.success( data.message );
+  console.log('post comment action<<<>>>>>', data.posts);
 }
+// export const createCommentPost = ( _id, text ) => async dispatch => {
+//   const { data } = await api.commentPost( _id );
+//   dispatch( {
+//     type: postTypes.CRATE_COMMENT_POST,
+//     payload: {_id, text}
+//   } )
+//   toast.success(data.message);
+// }
 export const deleteCommentPost = (_id, commentId) => async dispatch =>{
   dispatch( {
     type: postTypes.DELETE_COMMENT_POST,

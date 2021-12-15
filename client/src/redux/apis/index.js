@@ -23,4 +23,6 @@ export const createPost = ( postData ) => API.post( '/posts/create', postData );
 export const getAllPost = () => API.get( '/posts' );
 export const likeUnlikePost = ( postId, userId ) => API.put( `/posts/${ postId }/like`, userId );
 export const deletePost = ( postId ) => API.delete( `/posts/delete/${ postId }` );
+export const commentPost = ( comment ) => API.put( `/posts/comment`, comment );
+// export const commentPost = ( postId, text ) => API.put( `/posts/comment`, JSON.stringify({postId, text}) );
 

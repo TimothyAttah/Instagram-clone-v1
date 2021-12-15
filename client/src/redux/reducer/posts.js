@@ -196,6 +196,15 @@ export const posts = ( state = initialState, action ) => {
 						: post
 				),
 			};
+		
+		// case postTypes.CRATE_COMMENT_POST:
+		// 	return {
+		// 		...state,
+		// 		posts: state.posts.map( post => 
+		// 			post._id === action.payload._id ? { ...post, comment: [ ...post.comments, action.payload.text ] }
+		// 				: post
+		// 			)
+		// 	}
 		case postTypes.DELETE_COMMENT_POST:
 			return {
 				...state,

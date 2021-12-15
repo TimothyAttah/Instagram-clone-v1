@@ -2,13 +2,14 @@ import { Avatar } from '@material-ui/core'
 import { Delete,  Favorite, ThumbDown, ThumbUp,  DeleteForeverRounded } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { user } from '../../components/user';
 import {
 	deletePost, deleteCommentPost,
 	createCommentPost,
-	likeAndUnlikePost
+	likeAndUnlikePost,
+	listPosts
 } from '../../redux/actions/posts';
 import { v4 } from 'uuid';
 import { ReadMore } from '../../components/ReadMore';
@@ -24,17 +25,36 @@ import {
 	PostItems,
 	Form
 } from './PostListItemStyles';
+import { API } from '../../redux/apis';
 
 export const PostListItem = ( { post } ) => {
   const dispatch = useDispatch();
   const [ text, setText ] = useState( '' );
+  const [ data, setData ] = useState( [] );
   const [ like, setLike ] = useState( post?.likes.length )
-  const [ isLiked, setIsLiked ] = useState( false );
+	const [ isLiked, setIsLiked ] = useState( false );
+	
 
   useEffect( () => {
     setIsLiked(post.likes?.includes(user._id))
   }, [ setIsLiked, post.likes ] )
   
+	useEffect( () => {
+		dispatch( listPosts() );
+	}, [ dispatch ] );
+
+	const postCommentList = useSelector(state => state.posts.posts)
+
+
+	console.log( 'Post list comment>>>>>>>>', postCommentList );
+	
+const commentList =	postCommentList.map( comment => {
+		console.log('This is comment<<<<>>>>!!', comment.comments );
+		return comment.comments;
+	})
+
+	console.log('This is comment<<<<>>>>!!', commentList);
+
   const handleLike = async ( postId, userId ) => {
     dispatch( likeAndUnlikePost( postId, userId ) )
 
@@ -50,20 +70,50 @@ export const PostListItem = ( { post } ) => {
     dispatch( deleteCommentPost(id, commentId) );
   }
 
-  const handleCreateComment = ( e ) => {
+  const handleCreateComment = async ( e ) => {
     e.preventDefault();
-    const newComment = {
-			_id: v4(),
-			text,
-			postedBy: {
-				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-				username: 'John Doe',
-			},
+		const newComment = {
+			postId:post?._id,
+			text
 		};
-    dispatch(createCommentPost(post?._id, newComment))
-    console.log( 'This is comment>>>>', newComment );
-    setText( '' );
-  }
+    // dispatch(createCommentPost({newComment}));
+    dispatch(createCommentPost({postId: post?._id}, newComment));
+    // dispatch(createCommentPost({postId: newComment.postId, text: newComment.text}))
+    // dispatch(createCommentPost({postId:post?._id}, {comment: newComment}))
+    // console.log( 'This is comment>>>>', newComment );
+		
+		setText( '' );
+	}
+	
+
+	const makeComment = (text, postId) => {
+		fetch('/posts/comment', {
+			method: 'put',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({
+				postId,
+				text,
+			}),
+		})
+			.then(res => res.json())
+			.then(result => {
+				console.log(result);
+				const newData = data.map(item => {
+					if (item._id === result._id) {
+						return result;
+					} else {
+						return item;
+					}
+				});
+				setData(newData);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
   return (
 		<>
 			<PostItems>
@@ -129,7 +179,7 @@ export const PostListItem = ( { post } ) => {
 					)}
 				</PostCommentOptions>
 				<>
-					{post.comments?.map(comment => (
+					{/* { post.comments?.map( comment => (
 						<PostCommentContainer key={comment?._id}>
 							<div>
 								<Link
@@ -141,7 +191,7 @@ export const PostListItem = ( { post } ) => {
 								>
 									{comment?.postedBy?.username}:
 								</Link>
-								<ReadMore>{comment?.text}</ReadMore>
+								<span>{comment?.text}</span>
 							</div>
 							{comment.postedBy._id === user._id && (
 								<DeleteForeverRounded
@@ -149,9 +199,28 @@ export const PostListItem = ( { post } ) => {
 								/>
 							)}
 						</PostCommentContainer>
-					))}
+					))} */}
+
+					{ commentList.map( comment => {
+						console.log( comment );
+						return (
+							<div key={comment._id}>
+								<Link
+									to={
+										comment?.postedBy?._id !== user._id
+											? '/profile/' + comment?.postedBy?._id
+											: '/profile'
+									}
+								>
+									{comment?.postedBy?.username}:
+								</Link>
+								<span>{comment?.text}</span>
+							</div>
+						);
+					})}
 				</>
 				<PostCommentFormContainer className='commentsFormContainer'>
+
 					<Form onSubmit={handleCreateComment}>
 						<input
 							type='text'
@@ -161,6 +230,16 @@ export const PostListItem = ( { post } ) => {
 							onChange={e => setText(e.target.value)}
 						/>
 					</Form>
+
+					{/* <Form
+						onSubmit={e => {
+							e.preventDefault();
+							makeComment(e.target[0].value, post._id);
+							e.target[0].value = '';
+						}}
+					>
+						<input type='text' placeholder='add a comment' />
+					</Form> */}
 				</PostCommentFormContainer>
 				<p>Posted on {moment(post.createdAt).format('MMMM Do YYYY')}</p>
 			</PostItems>

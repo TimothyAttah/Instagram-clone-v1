@@ -68,16 +68,16 @@ const postControllers = {
 			postedBy: req.user._id,
 		};
 		try {
-			const postComments = await Post.findByIdAndUpdate(
+			const posts = await Post.findByIdAndUpdate(
 				req.body.postId,
 				{
 					$push: { comments: comment },
 				},
 				{ new: true }
 			)
-				.populate('comments.postedBy', '_id username pic')
-				.populate('postedBy', '_id username pic');
-			res.status(201).json({ message: 'You post a comment', postComments });
+				.populate('comments.postedBy', '_id username photo')
+				.populate('postedBy', '_id username photo');
+			res.status(201).json({ message: 'You post a comment', posts });
 		} catch (err) {
 			res.status(500).json({ error: err.message });
 		}
