@@ -86,8 +86,8 @@ export const ProfilePostList = ( { post } ) => {
 					<Link
 						to={
 							post.postedBy?._id !== user.user_id
-								? '/profile/' + post.postedBy._id
-								: '/profile'
+								? '/users/profile/' + post.postedBy._id
+								: '/users/profile'
 						}
 					>
 						<Avatar />
@@ -123,8 +123,8 @@ export const ProfilePostList = ( { post } ) => {
 						<Link
 							to={
 								post.postedBy._id !== user.user_id
-									? '/profile/' + post.postedBy._id
-									: '/profile'
+									? '/users/profile/' + post.postedBy._id
+									: '/users/profile'
 							}
 						>
 							{post?.postedBy.username}
@@ -148,8 +148,8 @@ export const ProfilePostList = ( { post } ) => {
 								<Link
 									to={
 										comment?.postedBy?._id !== user.user_id
-											? '/profile/' + comment?.postedBy?._id
-											: '/profile'
+											? '/users/profile/' + comment?.postedBy?._id
+											: '/users/profile'
 									}
 								>
 									{comment?.postedBy?.username}:

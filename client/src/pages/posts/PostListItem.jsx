@@ -99,8 +99,8 @@ export const PostListItem = ( { post } ) => {
 					<Link
 						to={
 							post.postedBy?._id !== user._id
-								? '/profile/' + post.postedBy._id
-								: '/profile'
+								? '/users/profile/' + post.postedBy._id
+								: '/users/profile'
 						}
 					>
 						<Avatar />
@@ -138,8 +138,8 @@ export const PostListItem = ( { post } ) => {
 						<Link
 							to={
 								post.postedBy._id !== user._id
-									? '/profile/' + post.postedBy._id
-									: '/profile'
+									? '/users/profile/' + post.postedBy._id
+									: '/users/profile'
 							}
 						>
 							{post?.postedBy.username}
@@ -157,14 +157,14 @@ export const PostListItem = ( { post } ) => {
 					)}
 				</PostCommentOptions>
 				<PostCommentItems>
-					{ post.comments?.map( comment => (
+					{post.comments?.map(comment => (
 						<PostCommentItem key={comment?._id}>
 							<div>
 								<Link
 									to={
 										comment?.postedBy?._id !== user._id
-											? '/profile/' + comment?.postedBy?._id
-											: '/profile'
+											? '/users/profile/' + comment?.postedBy?._id
+											: '/users/profile'
 									}
 								>
 									{comment?.postedBy?.username}:
@@ -180,7 +180,6 @@ export const PostListItem = ( { post } ) => {
 					))}
 				</PostCommentItems>
 				<PostCommentFormContainer className='commentsFormContainer'>
-
 					<Form onSubmit={handleCreateComment}>
 						<input
 							type='text'
