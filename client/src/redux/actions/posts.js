@@ -90,10 +90,17 @@ export const createCommentPost = ( _id, text ) => async dispatch => {
   console.log( 'post comment action<<<>>>>>', data.posts );
   window.location.reload();
 }
-export const deleteCommentPost = (_id, commentId) => async dispatch =>{
-  dispatch( {
-    type: postTypes.DELETE_COMMENT_POST,
-    payload: {_id, commentId}
-  } )
-  toast.success('Comment deleted successfully');
+export const deleteCommentPost = ( _id, commentId ) => async dispatch => {
+  try {
+    const { data } = await api.deleteCommentPost(_id, commentId);
+		dispatch({
+			type: postTypes.DELETE_COMMENT_POST,
+			payload: { _id, commentId },
+		});
+		toast.success(data.message);
+  } catch (err) {
+    if (err.response && err.response.data) {
+			toast.error(err.response.data.error);
+		}
+  }
 }

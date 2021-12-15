@@ -91,11 +91,20 @@ export const PostCommentOptions = styled.div`
 		font-size: 1.2rem;
 	}
 `;
-export const PostCommentContainer = styled.div`
+export const PostCommentItems = styled.div`
+	padding-top: 0.5rem;
+	height: 15rem;
+	overflow-y: auto;
+	::-webkit-scrollbar {
+		display: none;
+	}
+`;
+export const PostCommentItem = styled.div`
 	display: flex;
 	justify-content: space-between;
 	padding: 0.5rem 0;
 	font-size: 1.2rem;
+	margin: 0.5rem 0;
 	div {
 		display: flex;
 		width: 100%;

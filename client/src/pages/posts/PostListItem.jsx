@@ -13,7 +13,6 @@ import {
 import { ReadMore } from '../../components/ReadMore';
 
 import {
-	PostCommentContainer,
 	PostCommentFormContainer,
 	PostCommentOptions,
 	PostItemBottom,
@@ -21,6 +20,8 @@ import {
 	PostItemCounter,
 	PostItemTop,
 	PostItems,
+	PostCommentItem,
+	PostCommentItems,
 	Form
 } from './PostListItemStyles';
 
@@ -155,9 +156,9 @@ export const PostListItem = ( { post } ) => {
 						<h6>View all {post.comments.length} comments</h6>
 					)}
 				</PostCommentOptions>
-				<>
+				<PostCommentItems>
 					{ post.comments?.map( comment => (
-						<PostCommentContainer key={comment?._id}>
+						<PostCommentItem key={comment?._id}>
 							<div>
 								<Link
 									to={
@@ -175,9 +176,9 @@ export const PostListItem = ( { post } ) => {
 									onClick={() => handleDeleteCommentPost(post._id, comment._id)}
 								/>
 							)}
-						</PostCommentContainer>
+						</PostCommentItem>
 					))}
-				</>
+				</PostCommentItems>
 				<PostCommentFormContainer className='commentsFormContainer'>
 
 					<Form onSubmit={handleCreateComment}>
