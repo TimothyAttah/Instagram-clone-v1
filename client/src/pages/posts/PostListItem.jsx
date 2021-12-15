@@ -2,16 +2,14 @@ import { Avatar } from '@material-ui/core'
 import { Delete,  Favorite, ThumbDown, ThumbUp,  DeleteForeverRounded } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { user } from '../../components/user';
 import {
 	deletePost, deleteCommentPost,
 	createCommentPost,
 	likeAndUnlikePost,
-	listPosts
 } from '../../redux/actions/posts';
-import { v4 } from 'uuid';
 import { ReadMore } from '../../components/ReadMore';
 
 import {
@@ -25,12 +23,11 @@ import {
 	PostItems,
 	Form
 } from './PostListItemStyles';
-import { API } from '../../redux/apis';
 
 export const PostListItem = ( { post } ) => {
   const dispatch = useDispatch();
   const [ text, setText ] = useState( '' );
-  const [ data, setData ] = useState( [] );
+  // const [ data, setData ] = useState( [] );
   const [ like, setLike ] = useState( post?.likes.length )
 	const [ isLiked, setIsLiked ] = useState( false );
 	
@@ -39,21 +36,6 @@ export const PostListItem = ( { post } ) => {
     setIsLiked(post.likes?.includes(user._id))
   }, [ setIsLiked, post.likes ] )
   
-	useEffect( () => {
-		dispatch( listPosts() );
-	}, [ dispatch ] );
-
-	const postCommentList = useSelector(state => state.posts.posts)
-
-
-	console.log( 'Post list comment>>>>>>>>', postCommentList );
-	
-const commentList =	postCommentList.map( comment => {
-		console.log('This is comment<<<<>>>>!!', comment.comments );
-		return comment.comments;
-	})
-
-	console.log('This is comment<<<<>>>>!!', commentList);
 
   const handleLike = async ( postId, userId ) => {
     dispatch( likeAndUnlikePost( postId, userId ) )
@@ -76,44 +58,39 @@ const commentList =	postCommentList.map( comment => {
 			postId:post?._id,
 			text
 		};
-    // dispatch(createCommentPost({newComment}));
     dispatch(createCommentPost({postId: post?._id}, newComment));
-    // dispatch(createCommentPost({postId: newComment.postId, text: newComment.text}))
-    // dispatch(createCommentPost({postId:post?._id}, {comment: newComment}))
-    // console.log( 'This is comment>>>>', newComment );
-		
 		setText( '' );
 	}
 	
 
-	const makeComment = (text, postId) => {
-		fetch('/posts/comment', {
-			method: 'put',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
-			},
-			body: JSON.stringify({
-				postId,
-				text,
-			}),
-		})
-			.then(res => res.json())
-			.then(result => {
-				console.log(result);
-				const newData = data.map(item => {
-					if (item._id === result._id) {
-						return result;
-					} else {
-						return item;
-					}
-				});
-				setData(newData);
-			})
-			.catch(err => {
-				console.log(err);
-			});
-	};
+	// const makeComment = (text, postId) => {
+	// 	fetch('/posts/comment', {
+	// 		method: 'put',
+	// 		headers: {
+	// 			'Content-Type': 'application/json',
+	// 			Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+	// 		},
+	// 		body: JSON.stringify({
+	// 			postId,
+	// 			text,
+	// 		}),
+	// 	})
+	// 		.then(res => res.json())
+	// 		.then(result => {
+	// 			console.log(result);
+	// 			const newData = data.map(item => {
+	// 				if (item._id === result._id) {
+	// 					return result;
+	// 				} else {
+	// 					return item;
+	// 				}
+	// 			});
+	// 			setData(newData);
+	// 		})
+	// 		.catch(err => {
+	// 			console.log(err);
+	// 		});
+	// };
   return (
 		<>
 			<PostItems>
@@ -179,7 +156,7 @@ const commentList =	postCommentList.map( comment => {
 					)}
 				</PostCommentOptions>
 				<>
-					{/* { post.comments?.map( comment => (
+					{ post.comments?.map( comment => (
 						<PostCommentContainer key={comment?._id}>
 							<div>
 								<Link
@@ -199,25 +176,7 @@ const commentList =	postCommentList.map( comment => {
 								/>
 							)}
 						</PostCommentContainer>
-					))} */}
-
-					{ commentList.map( comment => {
-						console.log( comment );
-						return (
-							<div key={comment._id}>
-								<Link
-									to={
-										comment?.postedBy?._id !== user._id
-											? '/profile/' + comment?.postedBy?._id
-											: '/profile'
-									}
-								>
-									{comment?.postedBy?.username}:
-								</Link>
-								<span>{comment?.text}</span>
-							</div>
-						);
-					})}
+					))}
 				</>
 				<PostCommentFormContainer className='commentsFormContainer'>
 

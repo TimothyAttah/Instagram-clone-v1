@@ -87,16 +87,9 @@ export const createCommentPost = ( _id, text ) => async dispatch => {
 		payload: { _id, text },
 	});
   toast.success( data.message );
-  console.log('post comment action<<<>>>>>', data.posts);
+  console.log( 'post comment action<<<>>>>>', data.posts );
+  window.location.reload();
 }
-// export const createCommentPost = ( _id, text ) => async dispatch => {
-//   const { data } = await api.commentPost( _id );
-//   dispatch( {
-//     type: postTypes.CRATE_COMMENT_POST,
-//     payload: {_id, text}
-//   } )
-//   toast.success(data.message);
-// }
 export const deleteCommentPost = (_id, commentId) => async dispatch =>{
   dispatch( {
     type: postTypes.DELETE_COMMENT_POST,
