@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getUser } from '../../redux/actions/user';
 import { API } from '../../redux/apis';
+import { PostGallery } from '../posts/PostGallery';
 import { ProfilePostList } from './ProfilePostList';
 import {
 	ProfileBottomButtonWrapper,
@@ -99,7 +100,17 @@ console.log('this is user profile', userProfile?.user);
 					<button onClick={handleShowGallery}>Gallery</button>
 				</ProfileBottomButtonWrapper>
 				{showGallery ? (
-					<h1>Gallery coming soon...</h1>
+					<>
+						{userProfile?.posts.length ? (
+							userProfile?.posts.map(post => (
+								<div key={post._id}>
+									<PostGallery post={post} />
+								</div>
+							))
+						) : (
+							<h2>No posts published yet...</h2>
+						)}
+					</>
 				) : (
 					<div className='profileBottomPostsContainer'>
 						{userProfile?.posts.length ? (
