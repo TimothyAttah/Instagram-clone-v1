@@ -1,8 +1,7 @@
 import { Avatar } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { listPosts } from '../../redux/actions/posts';
 import { getUser } from '../../redux/actions/user';
 import { API } from '../../redux/apis';
 import { ProfilePostList } from './ProfilePostList';
@@ -28,18 +27,15 @@ export const UserProfile = () => {
 		// dispatch( listPosts() );
 		dispatch(getUser(userId));
 	}, [dispatch, userId]);
-	const { posts } = useSelector( state => state.posts );
 
 	useEffect( () => {
 		const getUserProfile = async () => {
 			const { data } = await API.get( `/users/user/${ userId }` );
 			setUserProfile(data)
-			console.log( 'this user data ......', data );
 		}
 		getUserProfile();
 	}, [userId] );
 
-console.log('this is user profile', userProfile);
 
 	const handleShowGallery = () => {
 		setShowGallery(true);
@@ -58,7 +54,9 @@ console.log('this is user profile', userProfile);
 	
 	
 
-	console.log('My Posts>>>>>>', userProfile?.posts);
+	console.log( 'My Posts>>>>>>', userProfile?.posts );
+console.log('this is user profile', userProfile?.user);
+	
 	return (
 		<ProfileContainer>
 			<ProfileTop>
@@ -67,21 +65,21 @@ console.log('this is user profile', userProfile);
 				</ProfileTopLeft>
 				<ProfileTopRight>
 					<ProfileTopNameWrapper>
-						<h4>jane_love</h4>
-						<h2>Jane Beauty</h2>
+						<h4>{userProfile?.user.username}</h4>
+						<h2>{userProfile?.user.name}</h2>
 					</ProfileTopNameWrapper>
 
 					<ProfileTopInfoWrapper>
 						<div>
-							<span>4</span>
+							<span>{userProfile?.posts.length}</span>
 							posts
 						</div>
 						<div>
-							<span>2</span>
+							<span>{userProfile?.user.followers?.length}</span>
 							followers
 						</div>
 						<div>
-							<span>100</span>
+							<span>{userProfile?.user.following?.length}</span>
 							following
 						</div>
 					</ProfileTopInfoWrapper>
@@ -105,7 +103,7 @@ console.log('this is user profile', userProfile);
 				) : (
 					<div className='profileBottomPostsContainer'>
 						{userProfile?.posts.length ? (
-							userProfile.posts.map(post => (
+							userProfile?.posts.map(post => (
 								<div key={post._id}>
 									<ProfilePostList post={post} />
 								</div>
