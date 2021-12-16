@@ -28,7 +28,6 @@ import {
 export const PostListItem = ( { post } ) => {
   const dispatch = useDispatch();
   const [ text, setText ] = useState( '' );
-  // const [ data, setData ] = useState( [] );
   const [ like, setLike ] = useState( post?.likes.length )
 	const [ isLiked, setIsLiked ] = useState( false );
 	

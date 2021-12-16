@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
-	likePost,
-	unlikePost,
+	listPosts,
 	deletePost,
 	deleteCommentPost,
 	createCommentPost,
+	likeAndUnlikePost,
 } from '../../redux/actions/posts';
 import {
 	Delete,
@@ -15,7 +15,6 @@ import {
 } from '@material-ui/icons';
 import moment from 'moment';
 import { user } from '../../components/user';
-import { v4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import {
 	PostCommentFormContainer,
@@ -36,22 +35,20 @@ import { Avatar } from '@material-ui/core';
 export const ProfilePostList = ( { post } ) => {
   const dispatch = useDispatch();
 	const [ text, setText ] = useState( '' );
-	const [ like, setLike ] = useState( post?.likes?.length );
-	const [ isLiked, setIsLiked ] = useState( false );
+	const [like, setLike] = useState(post?.likes.length);
+	const [isLiked, setIsLiked] = useState(false);
 	
 	useEffect(() => {
 		setIsLiked(post.likes?.includes(user._id));
 	}, [ setIsLiked, post.likes ] );
+
+	useEffect(() => {
+		dispatch(listPosts())
+	}, [ dispatch ] );
 	
+	const handleLike = async (postId, userId) => {
+		dispatch(likeAndUnlikePost(postId, userId));
 
-	const handleLike = (id, userId) => {
-		dispatch(likePost(id, userId));
-		setLike(isLiked > 0 ? like - 1 : like + 1);
-		setIsLiked(!isLiked);
-	};
-
-	const handleUnlike = (id, userId) => {
-		dispatch(unlikePost(id, userId));
 		setLike(isLiked > 0 ? like - 1 : like + 1);
 		setIsLiked(!isLiked);
 	};
@@ -60,22 +57,17 @@ export const ProfilePostList = ( { post } ) => {
 		dispatch(deletePost(id));
 	};
 
-	const handleDeleteCommentPost = (id, commentId) => {
-		dispatch(deleteCommentPost(id, commentId));
-	};
+const handleDeleteCommentPost = (id, commentId) => {
+	dispatch(deleteCommentPost(id, commentId));
+};
 
-	const handleCreateComment = e => {
+	const handleCreateComment = async e => {
 		e.preventDefault();
 		const newComment = {
-			_id: v4(),
+			postId: post?._id,
 			text,
-			postedBy: {
-				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-				username: 'John Doe',
-			},
 		};
-		dispatch(createCommentPost(post?._id, newComment));
-		console.log('This is comment>>>>', newComment);
+		dispatch(createCommentPost({ postId: post?._id }, newComment));
 		setText('');
 	};
 
@@ -105,7 +97,7 @@ export const ProfilePostList = ( { post } ) => {
 						<Favorite />
 						<>
 							{isLiked ? (
-								<ThumbDown onClick={() => handleUnlike(post._id, user._id)} />
+								<ThumbDown onClick={() => handleLike(post._id, user._id)} />
 							) : (
 								<ThumbUp onClick={() => handleLike(post._id, user._id)} />
 							)}
