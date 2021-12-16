@@ -16,6 +16,7 @@ import {
 	ProfileTopLeft,
 	ProfileTopNameWrapper,
 	ProfileTopRight,
+	GalleryContainer
 } from './ProfileStyles';
 
 export const UserProfile = () => {
@@ -100,7 +101,7 @@ console.log('this is user profile', userProfile?.user);
 					<button onClick={handleShowGallery}>Gallery</button>
 				</ProfileBottomButtonWrapper>
 				{showGallery ? (
-					<>
+					<GalleryContainer>
 						{userProfile?.posts.length ? (
 							userProfile?.posts.map(post => (
 								<div key={post._id}>
@@ -110,7 +111,7 @@ console.log('this is user profile', userProfile?.user);
 						) : (
 							<h2>No posts published yet...</h2>
 						)}
-					</>
+					</GalleryContainer>
 				) : (
 					<div className='profileBottomPostsContainer'>
 						{userProfile?.posts.length ? (
