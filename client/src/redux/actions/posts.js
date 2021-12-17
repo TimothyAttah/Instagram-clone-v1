@@ -27,7 +27,7 @@ export const listPosts = () => async dispatch => {
 			type: postTypes.LIST_POSTS,
 			payload: data.posts,
     } );
-    console.log('All Posts action>>>>>>', data.posts);
+    // console.log('All Posts action>>>>>>', data.posts);
   } catch (err) {
     if ( err.response && err.response.data ) {
       toast.error( err.response.data.error );

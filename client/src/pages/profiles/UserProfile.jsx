@@ -1,11 +1,12 @@
-import { Avatar } from '@material-ui/core';
+import { Avatar, Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getUser } from '../../redux/actions/user';
+import { getUser, followUser, unfollowUser } from '../../redux/actions/user';
 import { API } from '../../redux/apis';
 import { PostGallery } from '../posts/PostGallery';
 import { ProfilePostList } from './ProfilePostList';
+import { user } from '../../components/user';
 import {
 	ProfileBottomButtonWrapper,
 	ProfileBottomContainer,
@@ -47,17 +48,89 @@ export const UserProfile = () => {
 		setShowGallery(false);
   };
   
-  const handleFollowUser = () => {
-    setFollow( true );
+  const handleFollowUser = (id) => {
+		setFollow( true );
+		dispatch( followUser( id) );
   }
-  const handleUnfollowUser = () => {
-    setFollow( false );
+  const handleUnfollowUser = (id) => {
+		setFollow( false );
+		dispatch(unfollowUser(id))
 	}
-	
+
+
+		const [showFollow, setShowFollow] = useState(
+			user && user.results ? !user.results.following.includes(userId) : true
+		);
+
 	
 
-	console.log( 'My Posts>>>>>>', userProfile?.posts );
-console.log('this is user profile', userProfile?.user);
+	const followUser = () => {
+		fetch(`/users/follow`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({ followId: userId }),
+		})
+			.then(res => res.json())
+			.then(data => {
+				console.log('user follow data INFO<<>>>>>', data);
+				localStorage.setItem('user', JSON.stringify(data.user));
+				setUserProfile(prevState => {
+					return {
+						...prevState,
+						user: {
+							...prevState.user,
+							followers: [...prevState.user.followers, data._id],
+						},
+					};
+				});
+				setShowFollow(false);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+	const unFollowUser = () => {
+		fetch(`/users/unfollow`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({ unfollowId: userId }),
+		})
+			.then(res => res.json())
+			.then( data => {
+				console.log('user UNfollow data INFO<<>>>>>', data);
+				localStorage.setItem('user', JSON.stringify(data.user));
+				setUserProfile(prevState => {
+					const newFollower = prevState.user.followers.filter(
+						item => item !== data._id
+					);
+					return {
+						...prevState,
+						user: {
+							...prevState.user,
+							followers: newFollower,
+						},
+					};
+				});
+				setShowFollow(true);
+				//  window.location.reload( false );
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+
+	
+
+	// console.log( 'My Posts>>>>>>', userProfile?.posts );
+// console.log('this is user profile', userProfile?.user);
 	
 	return (
 		<ProfileContainer>
@@ -86,10 +159,35 @@ console.log('this is user profile', userProfile?.user);
 						</div>
 					</ProfileTopInfoWrapper>
 					<ProfileTopButtonWrapper primary>
-						{follow ? (
-							<button onClick={handleUnfollowUser}>Unfollow</button>
+						{/* {showFollow ? (
+							<button
+								onClick={() => unFollowUser()}
+								// onClick={() => handleUnfollowUser({ unfollowId: user._id })}
+							>
+								Unfollow
+							</button>
 						) : (
-							<button onClick={handleFollowUser}>Follow</button>
+							<button onClick={() => followUser()}>
+								Follow
+							</button>
+						)} */}
+
+						{showFollow ? (
+							<Button
+								variant='contained'
+								color='primary'
+								onClick={() => followUser()}
+							>
+								Follow
+							</Button>
+						) : (
+							<Button
+								variant='contained'
+								color='primary'
+								onClick={() => unFollowUser()}
+							>
+								Unfollow
+							</Button>
 						)}
 					</ProfileTopButtonWrapper>
 				</ProfileTopRight>

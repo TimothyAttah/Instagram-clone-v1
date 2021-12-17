@@ -123,8 +123,8 @@ const userControllers = {
 					{ new: true }
 				)
 					.select('-password')
-					.then(result => {
-						res.json({ message: 'You are now following this user.', result });
+					.then(user => {
+						res.json({ message: 'You are now following this user.', user });
 					})
 					.catch(err => {
 						return res.status(422).json({ error: err });
@@ -141,7 +141,7 @@ const userControllers = {
 			{
 				new: true,
 			},
-			(err, result) => {
+			(err, user) => {
 				if (err) {
 					return res.status(422).json({ error: err });
 				}
@@ -153,8 +153,8 @@ const userControllers = {
 					{ new: true }
 				)
 					.select('-password')
-					.then(result => {
-						res.status(200).json({ message: 'You unfollow this user', result });
+					.then(user => {
+						res.status(200).json({ message: 'You unfollow this user', user });
 					})
 					.catch(err => {
 						return res.status(422).json({ error: err });

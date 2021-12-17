@@ -17,6 +17,8 @@ export const signinUser = ( userData ) => API.post( '/auth/signin', userData );
 
 export const getAllUsers = () => API.get( '/users' );
 export const getAUser = (userId) => API.get( `/users/user/${userId}` );
+export const followUser = (userId) => API.put( '/users/follow', userId );
+export const unfollowUser = (userId) => API.put( '/users/unfollow', userId );
 
 
 
