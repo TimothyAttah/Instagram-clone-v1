@@ -68,7 +68,7 @@ const initialState = {
 					text: 'This is another test...',
 					postedBy: {
 						_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
-						username: 'Jane Doe',
+						username: 'Trinity Doe',
 					},
 				},
 				{
@@ -93,7 +93,6 @@ const initialState = {
 			followers: [],
 			following: [],
 			likes: [],
-			// likes: ['68284ebb-f25a-463c-aa31-737a948d5cac'],
 			comments: [],
 			body: 'This is post three...',
 			createdAt: 'Dec 20 2020',
@@ -108,11 +107,10 @@ const initialState = {
 			followers: [],
 			following: [],
 			likes: [],
-			// likes: ['68284ebb-f25a-463c-aa31-737a948d5cac'],
 			comments: [],
 			body: `If you open it directly in the browser, you will see an empty page.
 								You can add webfonts, meta tags, or analytics to this file.`,
-			createdAt: 'Dec 20 2021',
+			createdAt: 'Jan 20 2021',
 			postedBy: {
 				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
 				username: 'John Doe',
