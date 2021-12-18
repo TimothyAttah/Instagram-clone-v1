@@ -76,7 +76,7 @@ const initialState = {
 					text: 'Comments Three...',
 					postedBy: {
 						_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-						username: 'John Doe',
+						username: 'Jack Doe',
 					},
 				},
 			],
@@ -95,10 +95,10 @@ const initialState = {
 			likes: [],
 			comments: [],
 			body: 'This is post three...',
-			createdAt: 'Dec 20 2020',
+			createdAt: 'Dec 20 2021',
 			postedBy: {
 				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-				username: 'John Doe',
+				username: 'Jack Doe',
 			},
 		},
 		{
@@ -113,7 +113,7 @@ const initialState = {
 			createdAt: 'Jan 20 2021',
 			postedBy: {
 				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-				username: 'John Doe',
+				username: 'Jack Doe',
 			},
 		},
 	],
