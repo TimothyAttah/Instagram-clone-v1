@@ -3,51 +3,51 @@ import { v4 } from 'uuid';
 
 const initialState = {
 	posts: [
-		{
-			_id: v4(),
-			photo: '',
-			followers: [],
-			following: [],
-			likes: ['68284ebb-f25a-463c-aa31-737a948d5cac', '2'],
-			comments: [
-				{
-					_id: 'b166931d-c41c-401d-a017-67b965f42eb7',
-					text: `
-								This HTML file is a template.
-								If you open it directly in the browser, you will see an empty page.
-								You can add webfonts, meta tags, or analytics to this file.
-								The build step will place the bundled scripts into the <body> tag.
-								To begin the development, run  or yarn start.
-								To create a production bundle, use npm run build or yarn build.
-    					`,
-					postedBy: {
-						_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
-						username: 'Jane Doe',
-					},
-				},
-				{
-					_id: v4(),
-					text: 'Comments Two...',
-					postedBy: {
-						_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
-						username: 'Trisha Nick',
-					},
-				},
-			],
-			body: `
-								This HTML file is a template.
-								If you open it directly in the browser, you will see an empty page.
-								You can add webfonts, meta tags, or analytics to this file.
-								The build step will place the bundled scripts into the <body> tag.
-								To begin the development, run  or yarn start.
-								To create a production bundle, use npm run build or yarn build.
-    					`,
-			createdAt: 'Feb 10 2020',
-			postedBy: {
-				_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
-				username: 'Jane Doe',
-			},
-		},
+		// {
+		// 	_id: v4(),
+		// 	photo: '',
+		// 	followers: [],
+		// 	following: [],
+		// 	likes: ['68284ebb-f25a-463c-aa31-737a948d5cac', '2'],
+		// 	comments: [
+		// 		{
+		// 			_id: 'b166931d-c41c-401d-a017-67b965f42eb7',
+		// 			text: `
+		// 						This HTML file is a template.
+		// 						If you open it directly in the browser, you will see an empty page.
+		// 						You can add webfonts, meta tags, or analytics to this file.
+		// 						The build step will place the bundled scripts into the <body> tag.
+		// 						To begin the development, run  or yarn start.
+		// 						To create a production bundle, use npm run build or yarn build.
+    // 					`,
+		// 			postedBy: {
+		// 				_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
+		// 				username: 'Jane Doe',
+		// 			},
+		// 		},
+		// 		{
+		// 			_id: v4(),
+		// 			text: 'Comments Two...',
+		// 			postedBy: {
+		// 				_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
+		// 				username: 'Trisha Nick',
+		// 			},
+		// 		},
+		// 	],
+		// 	body: `
+		// 						This HTML file is a template.
+		// 						If you open it directly in the browser, you will see an empty page.
+		// 						You can add webfonts, meta tags, or analytics to this file.
+		// 						The build step will place the bundled scripts into the <body> tag.
+		// 						To begin the development, run  or yarn start.
+		// 						To create a production bundle, use npm run build or yarn build.
+    // 					`,
+		// 	createdAt: 'Feb 10 2020',
+		// 	postedBy: {
+		// 		_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
+		// 		username: 'Jane Doe',
+		// 	},
+		// },
 		{
 			_id: v4(),
 			photo: '',
