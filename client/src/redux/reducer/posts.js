@@ -65,20 +65,20 @@ const initialState = {
 				},
 				{
 					_id: v4(),
-					text: 'This is another test...',
+					text: 'Testing comment...',
 					postedBy: {
 						_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
 						username: 'Trinity Doe',
 					},
 				},
-				{
-					_id: v4(),
-					text: 'Comments Three...',
-					postedBy: {
-						_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-						username: 'Jack Doe',
-					},
-				},
+				// {
+				// 	_id: v4(),
+				// 	text: 'Comments Three...',
+				// 	postedBy: {
+				// 		_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
+				// 		username: 'Jack Doe',
+				// 	},
+				// },
 			],
 			body: 'This is post two body note...',
 			createdAt: 'June 15 2020',
