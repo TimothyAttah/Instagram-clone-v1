@@ -3,51 +3,51 @@ import { v4 } from 'uuid';
 
 const initialState = {
 	posts: [
-		{
-			_id: v4(),
-			photo: '',
-			followers: [],
-			following: [],
-			likes: ['68284ebb-f25a-463c-aa31-737a948d5cac', '2'],
-			comments: [
-				{
-					_id: 'b166931d-c41c-401d-a017-67b965f42eb7',
-					text: `
-								This HTML file is a template.
-								If you open it directly in the browser, you will see an empty page.
-								You can add webfonts, meta tags, or analytics to this file.
-								The build step will place the bundled scripts into the <body> tag.
-								To begin the development, run  or yarn start.
-								To create a production bundle, use npm run build or yarn build.
-    					`,
-					postedBy: {
-						_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
-						username: 'Jane Doe',
-					},
-				},
-				{
-					_id: v4(),
-					text: 'Comments Two...',
-					postedBy: {
-						_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
-						username: 'Trisha Nick',
-					},
-				},
-			],
-			body: `
-								This HTML file is a template.
-								If you open it directly in the browser, you will see an empty page.
-								You can add webfonts, meta tags, or analytics to this file.
-								The build step will place the bundled scripts into the <body> tag.
-								To begin the development, run  or yarn start.
-								To create a production bundle, use npm run build or yarn build.
-    					`,
-			createdAt: 'Feb 10 2020',
-			postedBy: {
-				_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
-				username: 'Jane Doe',
-			},
-		},
+		// {
+		// 	_id: v4(),
+		// 	photo: '',
+		// 	followers: [],
+		// 	following: [],
+		// 	likes: ['68284ebb-f25a-463c-aa31-737a948d5cac', '2'],
+		// 	comments: [
+		// 		{
+		// 			_id: 'b166931d-c41c-401d-a017-67b965f42eb7',
+		// 			text: `
+		// 						This HTML file is a template.
+		// 						If you open it directly in the browser, you will see an empty page.
+		// 						You can add webfonts, meta tags, or analytics to this file.
+		// 						The build step will place the bundled scripts into the <body> tag.
+		// 						To begin the development, run  or yarn start.
+		// 						To create a production bundle, use npm run build or yarn build.
+    // 					`,
+		// 			postedBy: {
+		// 				_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
+		// 				username: 'Jane Doe',
+		// 			},
+		// 		},
+		// 		{
+		// 			_id: v4(),
+		// 			text: 'Comments Two...',
+		// 			postedBy: {
+		// 				_id: '76b2f840-7b74-4ca3-a9cf-6f98b661cd77',
+		// 				username: 'Trisha Nick',
+		// 			},
+		// 		},
+		// 	],
+		// 	body: `
+		// 						This HTML file is a template.
+		// 						If you open it directly in the browser, you will see an empty page.
+		// 						You can add webfonts, meta tags, or analytics to this file.
+		// 						The build step will place the bundled scripts into the <body> tag.
+		// 						To begin the development, run  or yarn start.
+		// 						To create a production bundle, use npm run build or yarn build.
+    // 					`,
+		// 	createdAt: 'Feb 10 2020',
+		// 	postedBy: {
+		// 		_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
+		// 		username: 'Jane Doe',
+		// 	},
+		// },
 		{
 			_id: v4(),
 			photo: '',
@@ -65,20 +65,20 @@ const initialState = {
 				},
 				{
 					_id: v4(),
-					text: 'This is another test...',
+					text: 'Testing comment...',
 					postedBy: {
 						_id: '68284ebb-f25a-463c-aa31-737a948d5cac',
-						username: 'Jane Doe',
+						username: 'Trinity Doe',
 					},
 				},
-				{
-					_id: v4(),
-					text: 'Comments Three...',
-					postedBy: {
-						_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-						username: 'John Doe',
-					},
-				},
+				// {
+				// 	_id: v4(),
+				// 	text: 'Comments Three...',
+				// 	postedBy: {
+				// 		_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
+				// 		username: 'Jack Doe',
+				// 	},
+				// },
 			],
 			body: 'This is post two body note...',
 			createdAt: 'June 15 2020',
@@ -93,13 +93,12 @@ const initialState = {
 			followers: [],
 			following: [],
 			likes: [],
-			// likes: ['68284ebb-f25a-463c-aa31-737a948d5cac'],
 			comments: [],
 			body: 'This is post three...',
-			createdAt: 'Dec 20 2020',
+			createdAt: 'Dec 20 2021',
 			postedBy: {
 				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-				username: 'John Doe',
+				username: 'Jack Doe',
 			},
 		},
 		{
@@ -108,14 +107,13 @@ const initialState = {
 			followers: [],
 			following: [],
 			likes: [],
-			// likes: ['68284ebb-f25a-463c-aa31-737a948d5cac'],
 			comments: [],
 			body: `If you open it directly in the browser, you will see an empty page.
 								You can add webfonts, meta tags, or analytics to this file.`,
-			createdAt: 'Dec 20 2021',
+			createdAt: 'Jan 20 2021',
 			postedBy: {
 				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-				username: 'John Doe',
+				username: 'Jack Doe',
 			},
 		},
 	],
@@ -129,17 +127,18 @@ export const posts = ( state = initialState, action ) => {
 				posts: [action.payload, ...state.posts],
 			};
 		case postTypes.LIST_POSTS:
-			return {
-				...state,
-				posts: action.payload
-			};
 		case postTypes.LIST_POST:
 			return {
 				...state,
-				posts: state.posts.map(post =>
-					post._id === action.payload._id ? action.payload.post : post
-				),
+				posts: action.payload,
 			};
+		// case postTypes.LIST_POST:
+		// 	return {
+		// 		...state,
+		// 		posts: state.posts.map(post =>
+		// 			post._id === action.payload._id ? action.payload.post : post
+		// 		),
+		// 	};
 		case postTypes.DELETE_POST:
 			return {
 				...state,
@@ -171,8 +170,8 @@ export const posts = ( state = initialState, action ) => {
 		case postTypes.LIKE_AND_UNLIKE_POST:
 			return {
 				...state,
-				posts: action.payload
-			}
+				posts: action.payload,
+			};
 		case postTypes.UNLIKE_POST:
 			return {
 				...state,
@@ -196,11 +195,11 @@ export const posts = ( state = initialState, action ) => {
 						: post
 				),
 			};
-		
+
 		// case postTypes.CRATE_COMMENT_POST:
 		// 	return {
 		// 		...state,
-		// 		posts: state.posts.map( post => 
+		// 		posts: state.posts.map( post =>
 		// 			post._id === action.payload._id ? { ...post, comment: [ ...post.comments, action.payload.text ] }
 		// 				: post
 		// 			)

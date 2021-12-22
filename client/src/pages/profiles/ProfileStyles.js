@@ -149,6 +149,23 @@ export const ProfileBottomButtonWrapper = styled.div`
 		font-size: 1.5rem;
 	}
 `;
+
+
+export const GalleryContainer = styled.div`
+	/* max-width: 70rem;
+  margin: 4rem auto;
+  display: grid;
+  grid-gap: 1em;
+  grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+  grid-auto-rows: 30rem; */
+
+	max-width: 70rem;
+  width: 100%;
+	margin: 4rem auto;
+  display: flex;
+  justify-content: space-around;
+	flex-wrap: wrap;
+`;
 // export const ProfileBottomContainer = styled.div`
 
 // `;

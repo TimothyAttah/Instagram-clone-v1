@@ -76,7 +76,7 @@ const postControllers = {
 				{ new: true }
 			)
 				.populate('comments.postedBy', '_id username photo')
-				.populate('postedBy', '_id username photo');
+				.populate('postedBy', '_id username pic');
 			res.status(201).json({ message: 'You post a comment', posts });
 		} catch (err) {
 			res.status(500).json({ error: err.message });

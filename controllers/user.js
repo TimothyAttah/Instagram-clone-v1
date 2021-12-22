@@ -1,4 +1,5 @@
 const User = require( '../models/user' );
+const Post = require( '../models/post' );
 
 const userControllers = {
 	getAllUsers: async (req, res) => {
@@ -13,12 +14,28 @@ const userControllers = {
 	getAUser: async (req, res) => {
 		const _id = req.params.userId;
 		try {
-			const user = await User.findOne({ _id }).select('-password');
-			if (!user)
-				return res
-					.status(404)
-					.json({ error: 'This account is not yours. Access denied.' });
-			res.status(200).json({ user });
+			 const user = await User.findOne({ _id })
+					.select('-password')
+					.populate('followers', 'username name email pic')
+					.populate('following', 'username name email pic')
+					.populate('postedBy', '_id username pic followers following')
+					.populate('comments.postedBy', '_id username')
+					.populate('comments.postedBy', '_id username pic')
+					.populate('postedBy', '_id username pic')
+					.sort('-createdAt');
+				const posts = await Post.find({ postedBy: _id })
+					.populate('postedBy', '_id username pic followers following')
+					.populate('comments.postedBy', '_id username')
+					.populate('comments.postedBy', '_id username pic')
+					.populate('postedBy', '_id username pic')
+					.sort('-createdAt');
+				if (!user)
+					return res
+						.status(404)
+						.json({ error: 'This account is not yours. Access denied' });
+
+				res.status(200).json({ user, posts });
+		
 		} catch (err) {
 			console.log(`Error: ${err.message}`);
 			res.status(500).json({ error: err.message });
@@ -106,8 +123,8 @@ const userControllers = {
 					{ new: true }
 				)
 					.select('-password')
-					.then(result => {
-						res.json({ message: 'You are now following this user.', result });
+					.then(user => {
+						res.json({ message: 'You are now following this user.', user });
 					})
 					.catch(err => {
 						return res.status(422).json({ error: err });
@@ -124,7 +141,7 @@ const userControllers = {
 			{
 				new: true,
 			},
-			(err, result) => {
+			(err, user) => {
 				if (err) {
 					return res.status(422).json({ error: err });
 				}
@@ -136,8 +153,8 @@ const userControllers = {
 					{ new: true }
 				)
 					.select('-password')
-					.then(result => {
-						res.status(200).json({ message: 'You unfollow this user', result });
+					.then(user => {
+						res.status(200).json({ message: 'You unfollow this user', user });
 					})
 					.catch(err => {
 						return res.status(422).json({ error: err });

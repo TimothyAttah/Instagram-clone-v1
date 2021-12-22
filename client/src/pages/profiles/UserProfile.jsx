@@ -1,8 +1,12 @@
-import { Avatar } from '@material-ui/core';
+import { Avatar, Button } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { listPosts } from '../../redux/actions/posts';
+import { useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getUser, followUser, unfollowUser } from '../../redux/actions/user';
+import { API } from '../../redux/apis';
+import { PostGallery } from '../posts/PostGallery';
 import { ProfilePostList } from './ProfilePostList';
+import { user } from '../../components/user';
 import {
 	ProfileBottomButtonWrapper,
 	ProfileBottomContainer,
@@ -13,16 +17,28 @@ import {
 	ProfileTopLeft,
 	ProfileTopNameWrapper,
 	ProfileTopRight,
+	GalleryContainer
 } from './ProfileStyles';
 
 export const UserProfile = () => {
 	const dispatch = useDispatch();
 	const [showGallery, setShowGallery] = useState(false);
 	const [ follow, setFollow] = useState(false);
-	const { posts } = useSelector(state => state.posts);
-	useEffect(() => {
-		dispatch(listPosts());
-	}, [dispatch]);
+	const { userId } = useParams();
+	const [userProfile, setUserProfile] = useState()
+	useEffect( () => {
+		// dispatch( listPosts() );
+		dispatch(getUser(userId));
+	}, [dispatch, userId]);
+
+	useEffect( () => {
+		const getUserProfile = async () => {
+			const { data } = await API.get( `/users/user/${ userId }` );
+			setUserProfile(data)
+		}
+		getUserProfile();
+	}, [userId] );
+
 
 	const handleShowGallery = () => {
 		setShowGallery(true);
@@ -32,14 +48,90 @@ export const UserProfile = () => {
 		setShowGallery(false);
   };
   
-  const handleFollowUser = () => {
-    setFollow( true );
+  const handleFollowUser = (id) => {
+		setFollow( true );
+		dispatch( followUser( id) );
   }
-  const handleUnfollowUser = () => {
-    setFollow( false );
-  }
+  const handleUnfollowUser = (id) => {
+		setFollow( false );
+		dispatch(unfollowUser(id))
+	}
 
-	console.log('My Posts>>>>>>', posts);
+
+		const [showFollow, setShowFollow] = useState(
+			user && user.results ? !user.results.following.includes(userId) : true
+		);
+
+	
+
+	const followUser = () => {
+		fetch(`/users/follow`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({ followId: userId }),
+		})
+			.then(res => res.json())
+			.then(data => {
+				console.log('user follow data INFO<<>>>>>', data);
+				localStorage.setItem('user', JSON.stringify(data.user));
+				setUserProfile(prevState => {
+					return {
+						...prevState,
+						user: {
+							...prevState.user,
+							followers: [...prevState.user.followers, data._id],
+						},
+					};
+				});
+				setShowFollow(false);
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+	const unFollowUser = () => {
+		fetch(`/users/unfollow`, {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: 'Bearer ' + localStorage.getItem('jwt'),
+			},
+			body: JSON.stringify({ unfollowId: userId }),
+		})
+			.then(res => res.json())
+			.then( data => {
+				console.log('user UNfollow data INFO<<>>>>>', data);
+				localStorage.setItem('user', JSON.stringify(data.user));
+				setUserProfile(prevState => {
+					const newFollower = prevState.user.followers.filter(
+						item => item !== data._id
+					);
+					return {
+						...prevState,
+						user: {
+							...prevState.user,
+							followers: newFollower,
+						},
+					};
+				});
+				setShowFollow(true);
+				//  window.location.reload( false );
+			})
+			.catch(err => {
+				console.log(err);
+			});
+	};
+
+
+	
+
+	// console.log( 'My Posts>>>>>>', userProfile?.posts );
+// console.log('this is user profile', userProfile?.user);
+	
 	return (
 		<ProfileContainer>
 			<ProfileTop>
@@ -48,26 +140,55 @@ export const UserProfile = () => {
 				</ProfileTopLeft>
 				<ProfileTopRight>
 					<ProfileTopNameWrapper>
-						<h4>jane_love</h4>
-						<h2>Jane Beauty</h2>
+						<h4>{userProfile?.user.username}</h4>
+						<h2>{userProfile?.user.name}</h2>
 					</ProfileTopNameWrapper>
 
 					<ProfileTopInfoWrapper>
 						<div>
-							<span>4</span>
+							<span>{userProfile?.posts.length}</span>
 							posts
 						</div>
 						<div>
-							<span>2</span>
+							<span>{userProfile?.user.followers?.length}</span>
 							followers
 						</div>
 						<div>
-							<span>100</span>
+							<span>{userProfile?.user.following?.length}</span>
 							following
 						</div>
 					</ProfileTopInfoWrapper>
 					<ProfileTopButtonWrapper primary>
-						{follow ? <button onClick={handleUnfollowUser}>Unfollow</button> : <button onClick={handleFollowUser}>Follow</button>}
+						{/* {showFollow ? (
+							<button
+								onClick={() => unFollowUser()}
+								// onClick={() => handleUnfollowUser({ unfollowId: user._id })}
+							>
+								Unfollow
+							</button>
+						) : (
+							<button onClick={() => followUser()}>
+								Follow
+							</button>
+						)} */}
+
+						{showFollow ? (
+							<Button
+								variant='contained'
+								color='primary'
+								onClick={() => followUser()}
+							>
+								Follow
+							</Button>
+						) : (
+							<Button
+								variant='contained'
+								color='primary'
+								onClick={() => unFollowUser()}
+							>
+								Unfollow
+							</Button>
+						)}
 					</ProfileTopButtonWrapper>
 				</ProfileTopRight>
 			</ProfileTop>
@@ -78,11 +199,21 @@ export const UserProfile = () => {
 					<button onClick={handleShowGallery}>Gallery</button>
 				</ProfileBottomButtonWrapper>
 				{showGallery ? (
-					<h1>Gallery coming soon...</h1>
+					<GalleryContainer>
+						{userProfile?.posts.length ? (
+							userProfile?.posts.map(post => (
+								<div key={post._id}>
+									<PostGallery post={post} />
+								</div>
+							))
+						) : (
+							<h2>No posts published yet...</h2>
+						)}
+					</GalleryContainer>
 				) : (
 					<div className='profileBottomPostsContainer'>
-						{posts.length ? (
-							posts.map(post => (
+						{userProfile?.posts.length ? (
+							userProfile?.posts.map(post => (
 								<div key={post._id}>
 									<ProfilePostList post={post} />
 								</div>

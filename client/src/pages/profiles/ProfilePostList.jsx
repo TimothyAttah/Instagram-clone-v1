@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {
-	likePost,
-	unlikePost,
+	listPosts,
 	deletePost,
 	deleteCommentPost,
 	createCommentPost,
+	likeAndUnlikePost,
 } from '../../redux/actions/posts';
 import {
 	Delete,
@@ -15,10 +15,8 @@ import {
 } from '@material-ui/icons';
 import moment from 'moment';
 import { user } from '../../components/user';
-import { v4 } from 'uuid';
 import { useDispatch } from 'react-redux';
 import {
-	PostCommentContainer,
 	PostCommentFormContainer,
 	PostCommentOptions,
 	PostItemBottom,
@@ -36,22 +34,21 @@ import { Avatar } from '@material-ui/core';
 
 export const ProfilePostList = ( { post } ) => {
   const dispatch = useDispatch();
-  const [text, setText] = useState('');
+	const [ text, setText ] = useState( '' );
 	const [like, setLike] = useState(post?.likes.length);
 	const [isLiked, setIsLiked] = useState(false);
+	
+	useEffect(() => {
+		setIsLiked(post.likes?.includes(user._id));
+	}, [ setIsLiked, post.likes ] );
 
 	useEffect(() => {
-		setIsLiked(post.likes?.includes(user.user_id));
-	}, [setIsLiked, post.likes]);
+		dispatch(listPosts())
+	}, [ dispatch ] );
+	
+	const handleLike = async (postId, userId) => {
+		dispatch(likeAndUnlikePost(postId, userId));
 
-	const handleLike = (id, userId) => {
-		dispatch(likePost(id, userId));
-		setLike(isLiked > 0 ? like - 1 : like + 1);
-		setIsLiked(!isLiked);
-	};
-
-	const handleUnlike = (id, userId) => {
-		dispatch(unlikePost(id, userId));
 		setLike(isLiked > 0 ? like - 1 : like + 1);
 		setIsLiked(!isLiked);
 	};
@@ -60,22 +57,17 @@ export const ProfilePostList = ( { post } ) => {
 		dispatch(deletePost(id));
 	};
 
-	const handleDeleteCommentPost = (id, commentId) => {
-		dispatch(deleteCommentPost(id, commentId));
-	};
+const handleDeleteCommentPost = (id, commentId) => {
+	dispatch(deleteCommentPost(id, commentId));
+};
 
-	const handleCreateComment = e => {
+	const handleCreateComment = async e => {
 		e.preventDefault();
 		const newComment = {
-			_id: v4(),
+			postId: post?._id,
 			text,
-			postedBy: {
-				_id: '48b7ddb4-4da2-4fac-9b50-0546f21aeb72',
-				username: 'John Doe',
-			},
 		};
-		dispatch(createCommentPost(post?._id, newComment));
-		console.log('This is comment>>>>', newComment);
+		dispatch(createCommentPost({ postId: post?._id }, newComment));
 		setText('');
 	};
 
@@ -85,31 +77,29 @@ export const ProfilePostList = ( { post } ) => {
 				<PostItemTop>
 					<Link
 						to={
-							post.postedBy?._id !== user.user_id
-								? '/profile/' + post.postedBy._id
-								: '/profile'
+							post?.postedBy?._id !== user._id
+								? '/users/profile/' + post?.postedBy._id
+								: '/users/profile'
 						}
 					>
 						<Avatar />
 						<span>{post?.postedBy.username}</span>
 					</Link>
 					<>
-						{post.postedBy._id === user.user_id && (
+						{post.postedBy._id === user._id && (
 							<Delete onClick={() => handleDeletePost(post._id)} />
 						)}
 					</>
 				</PostItemTop>
 				<PostItemCenter>
-					<img src={post?.photo} alt='' />
+					<img src={`/uploads/${post?.photo}`} alt='' />
 					<PostItemCounter>
 						<Favorite />
 						<>
 							{isLiked ? (
-								<ThumbDown
-									onClick={() => handleUnlike(post._id, user.user_id)}
-								/>
+								<ThumbDown onClick={() => handleLike(post._id, user._id)} />
 							) : (
-								<ThumbUp onClick={() => handleLike(post._id, user.user_id)} />
+								<ThumbUp onClick={() => handleLike(post._id, user._id)} />
 							)}
 						</>
 					</PostItemCounter>
@@ -122,9 +112,9 @@ export const ProfilePostList = ( { post } ) => {
 					<h6>
 						<Link
 							to={
-								post.postedBy._id !== user.user_id
-									? '/profile/' + post.postedBy._id
-									: '/profile'
+								post.postedBy._id !== user._id
+									? '/users/profile/' + post.postedBy._id
+									: '/users/profile'
 							}
 						>
 							{post?.postedBy.username}
@@ -147,16 +137,16 @@ export const ProfilePostList = ( { post } ) => {
 							<div>
 								<Link
 									to={
-										comment?.postedBy?._id !== user.user_id
-											? '/profile/' + comment?.postedBy?._id
-											: '/profile'
+										comment?.postedBy?._id !== user._id
+											? '/users/profile/' + comment?.postedBy?._id
+											: '/users/profile'
 									}
 								>
 									{comment?.postedBy?.username}:
 								</Link>
 								<ReadMore>{comment?.text}</ReadMore>
 							</div>
-							{comment.postedBy._id === user.user_id && (
+							{comment.postedBy._id === user._id && (
 								<DeleteForeverRounded
 									onClick={() => handleDeleteCommentPost(post._id, comment._id)}
 								/>

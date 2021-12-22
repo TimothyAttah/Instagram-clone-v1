@@ -28,7 +28,6 @@ import {
 export const PostListItem = ( { post } ) => {
   const dispatch = useDispatch();
   const [ text, setText ] = useState( '' );
-  // const [ data, setData ] = useState( [] );
   const [ like, setLike ] = useState( post?.likes.length )
 	const [ isLiked, setIsLiked ] = useState( false );
 	
@@ -99,8 +98,8 @@ export const PostListItem = ( { post } ) => {
 					<Link
 						to={
 							post.postedBy?._id !== user._id
-								? '/profile/' + post.postedBy._id
-								: '/profile'
+								? '/users/profile/' + post.postedBy._id
+								: '/users/profile'
 						}
 					>
 						<Avatar />
@@ -138,8 +137,8 @@ export const PostListItem = ( { post } ) => {
 						<Link
 							to={
 								post.postedBy._id !== user._id
-									? '/profile/' + post.postedBy._id
-									: '/profile'
+									? '/users/profile/' + post.postedBy._id
+									: '/users/profile'
 							}
 						>
 							{post?.postedBy.username}
@@ -157,14 +156,14 @@ export const PostListItem = ( { post } ) => {
 					)}
 				</PostCommentOptions>
 				<PostCommentItems>
-					{ post.comments?.map( comment => (
+					{post.comments?.map(comment => (
 						<PostCommentItem key={comment?._id}>
 							<div>
 								<Link
 									to={
 										comment?.postedBy?._id !== user._id
-											? '/profile/' + comment?.postedBy?._id
-											: '/profile'
+											? '/users/profile/' + comment?.postedBy?._id
+											: '/users/profile'
 									}
 								>
 									{comment?.postedBy?.username}:
@@ -180,7 +179,6 @@ export const PostListItem = ( { post } ) => {
 					))}
 				</PostCommentItems>
 				<PostCommentFormContainer className='commentsFormContainer'>
-
 					<Form onSubmit={handleCreateComment}>
 						<input
 							type='text'
