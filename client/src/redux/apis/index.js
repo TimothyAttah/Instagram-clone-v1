@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // export const baseURL = 'https://instagram-clone-app-v1.herokuapp.com';
-export const baseURL = 'http://localhost:5000/api';
+// export const baseURL = 'http://localhost:5000/api';
+export const baseURL = process.env.REACT_APP_BACKEND_API;
 
 export const API = axios.create( { baseURL: baseURL } );
 
