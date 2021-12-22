@@ -1,6 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { user } from '../user';
+import { useDispatch } from 'react-redux';
+import { signOutUser } from '../../redux/actions/auth';
 
 import { Camera, Home, People } from '@material-ui/icons';
 
@@ -96,8 +99,11 @@ export const HeaderListsContainerPrimary = styled.div`
 `;
 
 export const HeaderLists = () => {
-  const user = false;
+	const dispatch = useDispatch();
 
+	const handleUserSignOut = () => {
+		dispatch( signOutUser() );
+	}
  if (user) {
 		return (
 			<HeaderListsContainer>
@@ -120,7 +126,7 @@ export const HeaderLists = () => {
 					</Link>
 				</li>
 				<li>
-					<button onClick={() => localStorage.clear()}>Logout</button>
+					<button onClick={handleUserSignOut}>Logout</button>
 				</li>
 			</HeaderListsContainer>
 		);

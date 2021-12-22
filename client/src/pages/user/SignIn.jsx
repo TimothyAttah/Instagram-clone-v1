@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { signinUser } from '../../redux/actions/auth';
 import { Container, Form, PasswordContainer } from './Styles';
 
 export const SignIn = () => {
+	const dispatch = useDispatch();
 	const [showPassword, setShowPassword] = useState(false);
 	const [userData, setUserData] = useState({
 		email: '',
@@ -19,6 +22,7 @@ export const SignIn = () => {
 
 	const handleOnSubmit = e => {
 		e.preventDefault();
+		dispatch( signinUser( userData ) );
 		console.log('User data>>>>>', userData);
 	};
 	return (

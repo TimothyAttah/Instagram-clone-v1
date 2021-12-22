@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeaderLists } from './HeaderLists';
+import { user } from '../user';
 
 export const Container = styled.nav`
   
@@ -44,10 +45,7 @@ export const HeaderContainer = styled.div`
 //   }
 // `;
 
-export const Header = () => {
-
-  const user = true;
-  
+export const Header = () => {  
   return (
     <Container>
       <HeaderContainer>
