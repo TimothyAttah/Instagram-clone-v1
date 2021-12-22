@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
-import { keys } from './keys.js';
+const mongoose = require('mongoose');
+const { keys } = require('./keys.js'); 
 
 // const URL = process.env.MONGODB_URL
 
-export const connectDB = async () => {
+const connectDB = async () => {
   try {
     const mongoDB = await mongoose.connect(keys.MONGODB_URL, {
 			useNewUrlParser: true,
@@ -14,3 +14,5 @@ export const connectDB = async () => {
     console.error(`Error: ${err.message}`);
   }
 }
+
+module.exports = { connectDB };

@@ -1,6 +1,6 @@
-import User from '../models/user.js';
+const User = require( '../models/user' );
 
-export const userControllers = {
+const userControllers = {
 	getAllUsers: async (req, res) => {
 		try {
 			const allUsers = await User.find().select('-password');
@@ -190,3 +190,5 @@ export const userControllers = {
 		}
 	},
 };
+
+module.exports = { userControllers };

@@ -1,8 +1,8 @@
-import { Router } from 'express';
-import { userControllers } from "../controllers/user.js";
-import { auth } from '../middlewares/auth.js';
+const userRouter = require( 'express').Router();
+const { userControllers } = require("../controllers/user");
+const { auth } = require ('../middlewares/auth');
 
-export const userRouter = Router();
+
 
 userRouter.get( '/', userControllers.getAllUsers );
 
@@ -21,3 +21,6 @@ userRouter.put( '/update-pic', auth, userControllers.updateUserPic );
 userRouter.get('/search-users', auth, userControllers.searchUser);
 
 userRouter.post('/search-users', auth, userControllers.searchUsername);
+
+
+module.exports = userRouter;

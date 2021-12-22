@@ -1,17 +1,16 @@
-import { json } from "express";
-import Post from "../models/post.js";
+const Post = require('../models/post');
 
-export const postControllers = {
+const postControllers = {
 	createPost: async (req, res) => {
 		const postData = req.body;
-		const { body, pic } = postData;
+		const { body, photo } = postData;
 		try {
-			if (!body || !pic)
+			if (!body || !photo)
 				return res.status(422).json({ error: 'Enter text and pic' });
 			req.user.password = undefined;
 			const post = await new Post({
 				body,
-				photo: pic,
+				photo,
 				postedBy: req.user,
 			});
 			await post.save();
@@ -53,10 +52,10 @@ export const postControllers = {
 					.updateOne({ $push: { likes: req.body.userId } })
 					.populate('postedBy', '_id username pic')
 					.populate('comments.postedBy', '_id username pic');
-				res.status(200).json({ message: 'The post has been liked.' });
+				res.status(200).json({ message: 'You like this post.' });
 			} else {
 				await post.updateOne({ $pull: { likes: req.body.userId } });
-				res.status(200).json({ message: 'The post has been disliked.' });
+				res.status(200).json({ message: 'You dislike this post.' });
 			}
 		} catch (err) {
 			console.log(err);
@@ -69,16 +68,16 @@ export const postControllers = {
 			postedBy: req.user._id,
 		};
 		try {
-			const postComments = await Post.findByIdAndUpdate(
+			const posts = await Post.findByIdAndUpdate(
 				req.body.postId,
 				{
 					$push: { comments: comment },
 				},
 				{ new: true }
 			)
-				.populate('comments.postedBy', '_id username pic')
-				.populate('postedBy', '_id username pic');
-			res.status(201).json({ message: 'You post a comment', postComments });
+				.populate('comments.postedBy', '_id username photo')
+				.populate('postedBy', '_id username photo');
+			res.status(201).json({ message: 'You post a comment', posts });
 		} catch (err) {
 			res.status(500).json({ error: err.message });
 		}
@@ -143,7 +142,7 @@ export const postControllers = {
 						return res.status(422).json({ error: err });
 					} else {
 						const result = postComment;
-						res.status(200).json({message: 'Comment deleted',result});
+						res.status(200).json({ message: 'Comment deleted', result });
 					}
 				});
 		} catch (err) {
@@ -151,3 +150,6 @@ export const postControllers = {
 		}
 	},
 };
+
+
+module.exports = { postControllers };

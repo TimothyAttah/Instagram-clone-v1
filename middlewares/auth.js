@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
-import User from '../models/user.js';
-import { keys } from '../config/keys.js';
+const jwt = require('jsonwebtoken');
+const User = require('../models/user.js'); 
+const { keys } = require( '../config/keys' );
 
-export const auth = async ( req, res, next ) => {
+const auth = async ( req, res, next ) => {
   try {
     const { authorization } = req.headers;
     if ( !authorization )
@@ -24,3 +24,5 @@ export const auth = async ( req, res, next ) => {
     res.status( 500 ).json( { error: err.message } );
   }
 }
+
+module.exports = { auth };

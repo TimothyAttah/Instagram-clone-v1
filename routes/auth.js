@@ -1,13 +1,14 @@
-import { Router } from 'express'
-import { authControllers } from "../controllers/auth.js";
-import { auth } from '../middlewares/auth.js';
+const authRouter = require('express').Router();
+const { authControllers } = require('../controllers/auth');
+const { auth } = require('../middlewares/auth');
 
-export const authRouter = Router();
 
-authRouter.post( '/signup', authControllers.signupUser );
+authRouter.post('/signup', authControllers.signupUser);
 
-authRouter.post( '/signin', authControllers.signinUser );
+authRouter.post('/signin', authControllers.signinUser);
 
-authRouter.post( '/change-username', auth, authControllers.changeUsername );
+authRouter.post('/change-username', auth, authControllers.changeUsername);
 
-authRouter.post( '/change-name', auth, authControllers.changeName );
+authRouter.post('/change-name', auth, authControllers.changeName);
+
+module.exports = authRouter;
