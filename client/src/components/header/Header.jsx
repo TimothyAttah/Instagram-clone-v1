@@ -15,7 +15,8 @@ export const HeaderContainer = styled.div`
 	top: 0;
 	z-index: 10;
 	width: 100%;
-	height: 9.6vh;
+	height: 64px;
+	/* height: 9.6vh; */
 
 	> a {
 		font-size: 3.5rem;

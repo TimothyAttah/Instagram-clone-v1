@@ -96,7 +96,7 @@ export const HeaderListsContainerPrimary = styled.div`
 `;
 
 export const HeaderLists = () => {
-  const user = false;
+  const user = true;
 
  if (user) {
 		return (

@@ -10,6 +10,7 @@ export const GlobalStyle = createGlobalStyle`
     --bg-white: #ffffff;
     --sky-blue: #1e88e5;
     --light-ash: #9e9e9e;
+    --gray: rgb(192,192,192);
     --outer-shadow: 0 2px 2px 0 rgb(0 0 0 / 14%), 0 3px 1px -2px rgb(0 0 0 / 12%), 0 1px 5px 0 rgb(0 0 0 / 20%);
 
   }
