@@ -1,18 +1,22 @@
-import { Avatar } from '@material-ui/core'
-import { Delete,  Favorite, ThumbDown, ThumbUp,  DeleteForeverRounded } from '@material-ui/icons'
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
-import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom'
-import { user } from '../../components/user';
 import {
 	likePost,
-  unlikePost, deletePost, deleteCommentPost,
-  createCommentPost
+	unlikePost,
+	deletePost,
+	deleteCommentPost,
+	createCommentPost,
 } from '../../redux/actions/posts';
+import {
+	Delete,
+	Favorite,
+	ThumbDown,
+	ThumbUp,
+	DeleteForeverRounded,
+} from '@material-ui/icons';
+import moment from 'moment';
+import { user } from '../../components/user';
 import { v4 } from 'uuid';
-import { ReadMore } from '../../components/ReadMore';
-
+import { useDispatch } from 'react-redux';
 import {
 	PostCommentContainer,
 	PostCommentFormContainer,
@@ -22,42 +26,45 @@ import {
 	PostItemCounter,
 	PostItemTop,
 	PostItems,
-	Form
-} from './PostListItemStyles';
+	Form,
+} from '../posts/PostListItemStyles';
+import { ReadMore } from '../../components/ReadMore';
+import { Link } from 'react-router-dom';
+import { Avatar } from '@material-ui/core';
 
-export const PostListItem = ( { post } ) => {
+export const ProfilePostList = ( { post } ) => {
   const dispatch = useDispatch();
-  const [ text, setText ] = useState( '' );
-  const [ like, setLike ] = useState( post?.likes.length )
-  const [ isLiked, setIsLiked ] = useState( false );
+  const [text, setText] = useState('');
+	const [like, setLike] = useState(post?.likes.length);
+	const [isLiked, setIsLiked] = useState(false);
 
-  useEffect( () => {
-    setIsLiked(post.likes?.includes(user.user_id))
-  }, [ setIsLiked, post.likes ] )
-  
-  const handleLike = ( id, userId ) => {
-    dispatch( likePost( id, userId ) )
-    setLike( isLiked > 0 ? like - 1 : like + 1 )
-    setIsLiked(!isLiked)
-  }
+	useEffect(() => {
+		setIsLiked(post.likes?.includes(user.user_id));
+	}, [setIsLiked, post.likes]);
 
-  const handleUnlike = ( id, userId ) => {
-    dispatch( unlikePost( id, userId ) )
-    setLike(isLiked > 0 ? like - 1 : like + 1);
+	const handleLike = (id, userId) => {
+		dispatch(likePost(id, userId));
+		setLike(isLiked > 0 ? like - 1 : like + 1);
 		setIsLiked(!isLiked);
-  }
+	};
 
-  const handleDeletePost = ( id ) => {
-    dispatch( deletePost( id ) );
-  }
+	const handleUnlike = (id, userId) => {
+		dispatch(unlikePost(id, userId));
+		setLike(isLiked > 0 ? like - 1 : like + 1);
+		setIsLiked(!isLiked);
+	};
 
-  const handleDeleteCommentPost = ( id, commentId ) => {
-    dispatch( deleteCommentPost(id, commentId) );
-  }
+	const handleDeletePost = id => {
+		dispatch(deletePost(id));
+	};
 
-  const handleCreateComment = ( e ) => {
-    e.preventDefault();
-    const newComment = {
+	const handleDeleteCommentPost = (id, commentId) => {
+		dispatch(deleteCommentPost(id, commentId));
+	};
+
+	const handleCreateComment = e => {
+		e.preventDefault();
+		const newComment = {
 			_id: v4(),
 			text,
 			postedBy: {
@@ -65,12 +72,13 @@ export const PostListItem = ( { post } ) => {
 				username: 'John Doe',
 			},
 		};
-    dispatch(createCommentPost(post?._id, newComment))
-    console.log( 'This is comment>>>>', newComment );
-    setText( '' );
-  }
+		dispatch(createCommentPost(post?._id, newComment));
+		console.log('This is comment>>>>', newComment);
+		setText('');
+	};
+
   return (
-		<>
+		<div>
 			<PostItems>
 				<PostItemTop>
 					<Link
@@ -167,6 +175,6 @@ export const PostListItem = ( { post } ) => {
 				</PostCommentFormContainer>
 				<p>Posted on {moment(post.createdAt).format('MMMM Do YYYY')}</p>
 			</PostItems>
-		</>
+		</div>
 	);
 }
