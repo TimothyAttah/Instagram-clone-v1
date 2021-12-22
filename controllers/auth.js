@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs') ;
 const jwt = require('jsonwebtoken') ;
 const User = require('../models/user') ;
-const { keys } = require('../config/keys'); ;
+const keys = require('../config/dev'); 
 
 
 const authControllers = {
@@ -67,7 +67,7 @@ const authControllers = {
 				return res
 					.status(422)
 					.json({ error: 'Password or email is incorrect.' });
-			const token = jwt.sign({ _id: user._id }, keys.JWT_SECRET, {
+			const token = jwt.sign({ _id: user._id }, keys.jwtSecret, {
 				expiresIn: '1d',
 			});
 			user.password = undefined;

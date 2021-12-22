@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/user.js'); 
-const { keys } = require( '../config/keys' );
+const keys = require( '../config/dev' );
 
 const auth = async ( req, res, next ) => {
   try {
@@ -10,7 +10,7 @@ const auth = async ( req, res, next ) => {
 
     const token = authorization.replace( 'Bearer ', '' );
 
-    jwt.verify( token, keys.JWT_SECRET, async ( err, payload ) => {
+    jwt.verify( token, keys.jwtSecret, async ( err, payload ) => {
       if ( err )
         return res.status( 403 ).json( { error: 'Invalid token. Permission denied.' } );
 

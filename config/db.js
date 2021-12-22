@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const { keys } = require('./keys.js'); 
+const keys = require('./dev'); 
 
 // const URL = process.env.MONGODB_URL
 
 const connectDB = async () => {
   try {
-    const mongoDB = await mongoose.connect(keys.MONGODB_URL, {
+    const mongoDB = await mongoose.connect(keys.mongoURL, {
 			useNewUrlParser: true,
       useUnifiedTopology: true,
       useCreateIndex: true,
