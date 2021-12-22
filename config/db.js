@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
+import { keys } from './keys.js';
 
 // const URL = process.env.MONGODB_URL
-const URL = 'mongodb://localhost:27017/instagram-clone-v2';
 
 export const connectDB = async () => {
   try {
-    const mongoDB = await mongoose.connect(URL, {
+    const mongoDB = await mongoose.connect(keys.MONGODB_URL, {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
