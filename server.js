@@ -1,8 +1,14 @@
-const express = require( 'express' );
-const cors = require( 'cors' );
-const path = require('path');
+// const express = require( 'express' );
+// const cors = require( 'cors' );
+// const path = require( 'path' );
+
+import express from 'express';
+import cors from 'cors';
+import path from 'path';
+import { connectDB } from './config/db.js';
 
 const app = express();
+connectDB();
 
 app.use( express.json() );
 app.use( cors() );
