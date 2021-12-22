@@ -49,11 +49,15 @@ app.post('/api/upload', (req, res) => {
 
 app.get('/', (req, res) => {
 	res.send({ hello: 'world. This is a test!!!!' });
-});
+} );
+
 
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/user'));
-app.use('/api/posts', require('./routes/post'));
+app.use( '/api/posts', require( './routes/post' ) );
+
+const PORT = process.env.PORT || 5000;
+
 
 if (process.env.NODE_ENV === 'production') {
 	app.use(express.static('client/build'));
@@ -63,6 +67,6 @@ if (process.env.NODE_ENV === 'production') {
 	});
 }
 
-const PORT = process.env.PORT || 5000;
+
 
 app.listen(PORT, () => console.log(`Server started on port: ${PORT}`));
